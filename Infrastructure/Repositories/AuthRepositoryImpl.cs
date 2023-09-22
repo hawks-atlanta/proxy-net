@@ -1,5 +1,4 @@
-﻿using proxy_net.Controllers.SimulatedServices;
-using proxy_net.Models.Auth.DataSources;
+﻿using proxy_net.Models.Auth.DataSources;
 using proxy_net.Models.Auth.Entities;
 using proxy_net.Models.Auth.Repositories;
 

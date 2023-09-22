@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using proxy_net.Controllers.SimulatedServices;
-using proxy_net.Models.Auth.DataSources;
 using proxy_net.Models.Auth.Entities;
 using proxy_net.Models.Auth.Repositories;
 
@@ -22,17 +20,17 @@ namespace proxy_net.Controllers.Auth
         [HttpPost(Name = "register")]
         public async Task<IActionResult> Post([FromBody] User user)
         {
-            if (user == null)
+            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
                 return BadRequest("El cuerpo de la solicitud es nulo.");
             }
             Console.WriteLine($"Username: {user.Username}, Password: {user.Password}, JwtToken: {user.JwtToken}");
-            var authenticatedUser = await _userRepository.PostRegisterAsync(user.Username, user.Password);
-            if (authenticatedUser == null)
+            var jwtToken = await _userRepository.PostRegisterAsync(user.Username, user.Password);
+            if (jwtToken == null)
             {
                 return Unauthorized();
             }
-            return Ok(authenticatedUser);
+            return StatusCode(StatusCodes.Status201Created, jwtToken);
         }
     }
 }

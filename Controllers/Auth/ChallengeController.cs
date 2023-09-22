@@ -20,7 +20,7 @@ namespace proxy_net.Controllers.Auth
         [HttpPost(Name = "challenge")]
         public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string jwtToken)
         {
-            if (jwtToken == null)
+            if (string.IsNullOrEmpty(jwtToken))
             {
                 return BadRequest("El cuerpo de la solicitud es nulo.");
             }
