@@ -26,9 +26,9 @@ namespace proxy_net.Controllers.Auth
             }
             Console.WriteLine($"Username: {user.Username}, Password: {user.Password}, JwtToken: {user.JwtToken}");
             var jwtToken = await _userRepository.PostRegisterAsync(user.Username, user.Password);
-            if (jwtToken == null)
+            if (jwtToken.Jwt == null)
             {
-                return Unauthorized();
+                return Unauthorized("Unauthorized");
             }
             return StatusCode(StatusCodes.Status201Created, jwtToken);
         }

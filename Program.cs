@@ -26,7 +26,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//Temporaly disabled HTTP -> HTTPS redirection
+//app.UseHttpsRedirection();
 
 //app.UseAuthorization();
 

@@ -26,9 +26,9 @@ namespace proxy_net.Controllers.Auth
             }
             jwtToken = jwtToken.Replace("Bearer ", "");
             var authenticatedUser = await _userRepository.PostChallengeAsync(jwtToken);
-            if (authenticatedUser == null)
+            if (authenticatedUser.Jwt == null)
             {
-                return Unauthorized();
+                return Unauthorized("Unauthorized");
             }
             return Ok(authenticatedUser);
         }       

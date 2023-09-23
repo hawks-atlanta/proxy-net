@@ -6,7 +6,5 @@ namespace proxy_net.Models.Auth.Entities
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string? Jwt { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string? ErrorMessage { get; set; }
     }
 }
