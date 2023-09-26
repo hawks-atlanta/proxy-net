@@ -1,6 +1,6 @@
 # proxy-net
 
-
+[![Coverage](https://github.com/hawks-atlanta/proxy-net/actions/workflows/coverage.yaml/badge.svg)](https://github.com/hawks-atlanta/proxy-net/actions/workflows/coverage.yaml) [![Release](https://github.com/hawks-atlanta/proxy-net/actions/workflows/release.yaml/badge.svg)](https://github.com/hawks-atlanta/proxy-net/actions/workflows/release.yaml) [![Tagging](https://github.com/hawks-atlanta/proxy-net/actions/workflows/tagging.yaml/badge.svg)](https://github.com/hawks-atlanta/proxy-net/actions/workflows/tagging.yaml) [![Test](https://github.com/hawks-atlanta/proxy-net/actions/workflows/testing.yaml/badge.svg)](https://github.com/hawks-atlanta/proxy-net/actions/workflows/testing.yaml) 
 
 ## Description
 
