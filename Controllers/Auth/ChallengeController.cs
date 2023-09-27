@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using proxy_net.Models.Auth.Entities;
-using proxy_net.Models.Auth.Repositories;
+using ServiceReference;
+using System.Net;
+using System.ServiceModel.Channels;
+using System.ServiceModel;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authentication;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -8,29 +13,49 @@ namespace proxy_net.Controllers.Auth
     [Route("[controller]")]
     public class ChallengeController : ControllerBase
     {
-        private readonly IAuthRepository _userRepository;
         private readonly ILogger<LoginController> _logger;
 
-        public ChallengeController(ILogger<LoginController> logger, IAuthRepository userRepository)
+        public ChallengeController(ILogger<LoginController> logger)
         {
             _logger = logger;
-            _userRepository = userRepository;
         }
 
         [HttpPost(Name = "challenge")]
-        public async Task<IActionResult> Post([FromHeader(Name = "Authorization")] string jwtToken)
+        public async Task<object> Post()
         {
-            if (string.IsNullOrEmpty(jwtToken))
+            string authorizationHeader = Request.Headers["Authorization"]!;
+            if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
             {
-                return BadRequest("El cuerpo de la solicitud es nulo.");
+                return AuthenticateResult.Fail("El cuerpo de la solicitud no es valido");
             }
-            jwtToken = jwtToken.Replace("Bearer ", "");
-            var authenticatedUser = await _userRepository.PostChallengeAsync(jwtToken);
-            if (authenticatedUser.Jwt == null)
+            var token = authorizationHeader.Substring("Bearer ".Length);
+            var authorization = new authorization
             {
-                return Unauthorized("Unauthorized");
+                token = token,
+            };
+            Console.WriteLine("token: " + token);
+            var httpRequestProperty = new HttpRequestMessageProperty();
+            httpRequestProperty.Headers[HttpRequestHeader.Authorization] = authorizationHeader;
+            await using(var client = new ServiceClient())
+            {
+                try
+                {
+                    using (new OperationContextScope(client.InnerChannel))
+                    {
+                        OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
+                        var response = await client.auth_refreshAsync(authorization);
+                        if (response == null || response.@return == null)
+                    {
+                            return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o la propiedad 'return' es nula.");
+                        }
+                        return StatusCode(StatusCodes.Status200OK, response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
+                }
             }
-            return Ok(authenticatedUser);
-        }       
+        }
     }
 }

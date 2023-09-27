@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "options": {
     "inputs": [
-      "http://127.0.0.1:8080/service?wsdl"
+      "http://gateway:8080/service?wsdl"
     ],
     "namespaceMappings": [
       "*, ServiceReference"

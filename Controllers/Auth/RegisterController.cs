@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using proxy_net.Models.Auth.Entities;
-using proxy_net.Models.Auth.Repositories;
+using ServiceReference;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -8,29 +8,42 @@ namespace proxy_net.Controllers.Auth
     [Route("[controller]")]
     public class RegisterController : ControllerBase
     {
-        private readonly IAuthRepository _userRepository;
         private readonly ILogger<LoginController> _logger;
 
-        public RegisterController(ILogger<LoginController> logger, IAuthRepository userRepository)
+        public RegisterController(ILogger<LoginController> logger)
         {
             _logger = logger;
-            _userRepository = userRepository;
         }
 
         [HttpPost(Name = "register")]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<object> Post([FromBody] User user)
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
                 return BadRequest("El cuerpo de la solicitud es nulo.");
             }
-            Console.WriteLine($"Username: {user.Username}, Password: {user.Password}, JwtToken: {user.JwtToken}");
-            var jwtToken = await _userRepository.PostRegisterAsync(user.Username, user.Password);
-            if (jwtToken.Jwt == null)
+
+            var credentials = new credentials
             {
-                return Unauthorized("Unauthorized");
+                username = user.Username,
+                password = user.Password
+            };
+            await using (var client = new ServiceClient())
+            {
+                try
+                {
+                    var response = await client.account_registerAsync(credentials);
+                    if (response == null || response.@return == null)
+                    {
+                        return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula.");
+                    }
+                    return StatusCode(StatusCodes.Status201Created, response);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
+                }
             }
-            return StatusCode(StatusCodes.Status201Created, jwtToken);
         }
     }
 }

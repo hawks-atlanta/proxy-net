@@ -1719,7 +1719,7 @@ namespace ServiceReference
         {
             if ((endpointConfiguration == EndpointConfiguration.ServiceImpPort))
             {
-                return new System.ServiceModel.EndpointAddress("http://127.0.0.1:8080/service");
+                return new System.ServiceModel.EndpointAddress("http://gateway:8080/service");
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }

@@ -83,3 +83,22 @@ services:
     depends_on:
       - authentication-db
       - metadata-db
+
+  # Proxy-net
+  proxy-net:
+    container_name: proxy-net
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - 8084:80
+    depends_on:
+      - gateway
+      - worker
+      - metadata
+      - authentication
+      - authentication-db
+      - metadata-db
+      - postgres-admin
