@@ -41,7 +41,7 @@ Proxy service intended to forward traffic between clients and `gateway-java` so 
     </tr>    
     <tr>
       <td>POST</td>
-      <td>/challenge</td>
+      <td>/refreshtoken</td>
       <td class='text-align:center'>No</td>
       <td>Validate Token User (Bearer Authentication)</td>
       <td>Validate token/user and return a JWT.</td>
@@ -49,7 +49,31 @@ Proxy service intended to forward traffic between clients and `gateway-java` so 
   </tbody>
 </table>
 
-## Running the API
+## Step for running the PROXY-NET
+
+Clone the repo:
+
+``````bash
+git clone https://github.com/hawks-atlanta/proxy-net.git
+``````
+
+Enter the new folder:
+
+``````
+cd /proxy-net
+``````
+
+You can setup the necessary services by running:
+
+``````bash
+docker compose up -d
+``````
+
+Services port & route:
+
+`http://localhost:8084/proxy`
+
+## For Development
 
 #### Opening the project
 
