@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.6 (2023-10-01)
+
+
+### Features
+
+* response clean for endpoints register & login ([#16](https://github.com/hawks-atlanta/proxy-net/issues/16)) ([ab1572e](https://github.com/hawks-atlanta/proxy-net/commit/ab1572e58d4838445a953eb99d5637fa8675d38e))
+
 ### 0.0.5 (2023-09-29)
 
 ### 0.0.4 (2023-09-27)
