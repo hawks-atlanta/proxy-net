@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using proxy_net.Controllers.Adapters;
 using proxy_net.Models.Auth.Entities;
 using ServiceReference;
+using System;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -8,41 +12,51 @@ namespace proxy_net.Controllers.Auth
     [Route("[controller]")]
     public class RegisterController : ControllerBase
     {
-        private readonly ILogger<LoginController> _logger;
+        private readonly ILogger<RegisterController> _logger;
 
-        public RegisterController(ILogger<LoginController> logger)
+        public RegisterController(ILogger<RegisterController> logger)
         {
             _logger = logger;
         }
 
         [HttpPost(Name = "register")]
-        public async Task<object> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
-            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            try
             {
-                return BadRequest("El cuerpo de la solicitud es nulo.");
-            }
+                if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+                {
+                    return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
+                }
 
-            var credentials = new credentials
-            {
-                username = user.Username,
-                password = user.Password
-            };
-            await using (var client = new ServiceClient())
-            {
-                try
+                var credentials = AdaptersToSoap.ConvertToCredentials(user);
+
+                using (var client = new ServiceClient())
                 {
-                    var response = await client.account_registerAsync(credentials);
-                    if (response == null || response.@return == null)
+                    account_registerResponse response = await client.account_registerAsync(credentials);
+                    if (response?.@return != null)
                     {
-                        return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula.");
+                        if (response.@return.error)
+                        {
+                            string errorMessage = response.@return.msg;
+                            if (errorMessage.Contains("duplicate key value violates unique constraint"))
+                            {
+                                return StatusCode(StatusCodes.Status409Conflict, new { ErrorSoap = errorMessage, error = "El usuario ya existe"});
+                            }
+                            return StatusCode(StatusCodes.Status401Unauthorized, errorMessage);
+                        }
+                        else if (!string.IsNullOrEmpty(response.@return.auth?.token))
+                        {
+                            return Created(string.Empty, new { Token = response.@return.auth.token });
+                        }
                     }
-                    return StatusCode(StatusCodes.Status201Created, response);
+                    return NotFound("No se pudo crear el usuario o la respuesta del servicio SOAP es inválida.");
                 }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en la llamada SOAP.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
             }
         }
     }

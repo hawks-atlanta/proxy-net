@@ -6,34 +6,35 @@ using System.ServiceModel.Channels;
 using System.ServiceModel;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication;
+using proxy_net.Controllers.Adapters;
 
 namespace proxy_net.Controllers.Auth
 {
     [ApiController]
     [Route("[controller]")]
-    public class ChallengeController : ControllerBase
+    public class RefreshTokenController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
 
-        public ChallengeController(ILogger<LoginController> logger)
+        public RefreshTokenController(ILogger<LoginController> logger)
         {
             _logger = logger;
         }
 
-        [HttpPost(Name = "challenge")]
-        public async Task<object> Post()
+        [HttpPost(Name = "RefreshToken")]
+        public async Task<IActionResult> Post()
         {
             string authorizationHeader = Request.Headers["Authorization"]!;
             if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
             {
-                return AuthenticateResult.Fail("El cuerpo de la solicitud no es valido");
+                return BadRequest("El cuerpo de la solicitud no es valido");
             }
+
             var token = authorizationHeader.Substring("Bearer ".Length);
-            var authorization = new authorization
-            {
-                token = token,
-            };
-            Console.WriteLine("token: " + token);
+            var authorization = AdaptersToSoap.ConvertToAuthorization(token);
+            Console.WriteLine("Token: " + token);
+            Console.WriteLine("Adapter: " + authorization);
+
             var httpRequestProperty = new HttpRequestMessageProperty();
             httpRequestProperty.Headers[HttpRequestHeader.Authorization] = authorizationHeader;
             await using(var client = new ServiceClient())
@@ -43,7 +44,8 @@ namespace proxy_net.Controllers.Auth
                     using (new OperationContextScope(client.InnerChannel))
                     {
                         OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
-                        var response = await client.auth_refreshAsync(authorization);
+                        auth_refreshResponse response = await client.auth_refreshAsync(authorization);
+                        Console.WriteLine("auth_refreshResponse: " + response);
                         if (response == null || response.@return == null)
                     {
                             return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o la propiedad 'return' es nula.");

@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using proxy_net.Controllers.Adapters;
 using proxy_net.Models.Auth.Entities;
 using ServiceReference;
+using System;
+using System.Threading.Tasks;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -20,29 +24,39 @@ namespace proxy_net.Controllers.Auth
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
-                return BadRequest("El cuerpo de la solicitud es nulo.");
+                return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
             }
 
-            var credentials = new credentials
+            var credentials = AdaptersToSoap.ConvertToCredentials(user);
+
+            try
             {
-                username = user.Username,
-                password = user.Password
-            };
-            await using (var client = new ServiceClient())
-            {
-                try
+                using (var client = new ServiceClient())
                 {
-                    var response = await client.auth_loginAsync(credentials);
-                    if (response == null || response.@return == null)
+                    auth_loginResponse response = await client.auth_loginAsync(credentials);
+
+                    if (response?.@return == null)
                     {
-                        return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula.");
+                        return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o inválida.");
                     }
-                    return StatusCode(StatusCodes.Status201Created, response);
+                    if (response.@return.error)
+                    {
+                        string errorMessage = response.@return.msg;
+                        return StatusCode(StatusCodes.Status401Unauthorized, errorMessage);
+                    }
+                    string authToken = response?.@return.auth?.token ?? string.Empty;
+                    if (string.IsNullOrEmpty(authToken))
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Token de autenticación no válido.");
+                    }
+
+                    return Ok(new { Token = authToken });
                 }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en la llamada SOAP.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
             }
         }
     }
