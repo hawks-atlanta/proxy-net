@@ -25,6 +25,13 @@ if (app.Environment.IsDevelopment())
 
 //app.UseAuthorization();
 
-app.MapControllers();
+app.Map("/proxy", app =>
+{
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+});
 
 app.Run();
