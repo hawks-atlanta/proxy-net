@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using proxy_net.Controllers.Adapters;
 using proxy_net.Models.Auth.Entities;
 using ServiceReference;
-using System;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -56,7 +53,7 @@ namespace proxy_net.Controllers.Auth
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error en la llamada SOAP.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
+                throw;
             }
         }
     }

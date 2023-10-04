@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using proxy_net.Controllers.Adapters;
 using proxy_net.Models.Auth.Entities;
 using ServiceReference;
-using System;
-using System.ServiceModel;
-using System.Threading.Tasks;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -55,37 +51,10 @@ namespace proxy_net.Controllers.Auth
                     return Ok(new { Token = authToken });
                 }
             }
-            catch (InvalidOperationException ex)
-            {
-                _logger.LogError(ex, "InvalidOperationException(Operación no válida en la llamada SOAP)");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-
-            }
-            catch (TimeoutException ex)
-            {
-                _logger.LogError(ex, "TimeoutException(Error en la llamada SOAP.)");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-
-            }
-            catch (FaultException<MissingFieldException> ex)
-            {
-                _logger.LogError(ex, "FaultException(MissingFieldException | Library has been removed or renamed)");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-            }
-            catch (FaultException ex)
-            {
-                _logger.LogError(ex, "FaultException(Error en la llamada SOAP.)");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-            }
-            catch (CommunicationException ex)
-            {
-                _logger.LogError(ex, "CommunicationException(Error en la llamada SOAP.)");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
-            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error en la llamada SOAP.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
+                throw;
             }
         }
     }

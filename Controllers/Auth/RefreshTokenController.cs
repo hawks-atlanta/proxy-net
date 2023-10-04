@@ -1,12 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using proxy_net.Models.Auth.Entities;
-using ServiceReference;
-using System.Net;
-using System.ServiceModel.Channels;
-using System.ServiceModel;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Authentication;
-using proxy_net.Controllers.Adapters;
 
 namespace proxy_net.Controllers.Auth
 {
@@ -22,7 +15,10 @@ namespace proxy_net.Controllers.Auth
         }
 
         [HttpPost(Name = "RefreshToken")]
-        public async Task<IActionResult> Post([FromBody] User token)
+        //When using NEW refreshToken/Challenge change to:
+        //TODO:
+        //public async Task<IActionResult> Post([FromBody] User token)
+        public IActionResult Post([FromBody] User token)
         {
             if (string.IsNullOrEmpty(token.Token))
             {
@@ -35,7 +31,7 @@ namespace proxy_net.Controllers.Auth
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error en la llamada SOAP.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error en la llamada SOAP: " + ex.Message);
+                throw;
             }
         }
     }

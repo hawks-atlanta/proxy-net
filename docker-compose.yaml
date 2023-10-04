@@ -85,6 +85,8 @@ services:
       - metadata-db
 
   # Proxy-net
+  # Local/Docker http://gateway:8080/service
+  # Remote       http://capyfile1.bucaramanga.upb.edu.co/service
   proxy-net:
     container_name: proxy-net
     build:
@@ -92,7 +94,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_URLS=http://+:80
-      - SERVICE_URL=http://capyfile1.bucaramanga.upb.edu.co/service # connect to Localhost with using name "gateway" container
+      - SERVICE_URL=http://gateway:8080/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
     ports:
       - 8084:80
     depends_on:
