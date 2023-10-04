@@ -92,6 +92,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - SERVICE_URL=http://capyfile1.bucaramanga.upb.edu.co/service # connect to Localhost with using name "gateway" container
     ports:
       - 8084:80
     depends_on:

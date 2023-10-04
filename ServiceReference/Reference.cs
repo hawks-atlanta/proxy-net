@@ -604,12 +604,28 @@ namespace ServiceReference
     public partial class resStatus
     {
         
+        private int codeField;
+        
         private bool errorField;
         
         private string msgField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public int code
+        {
+            get
+            {
+                return this.codeField;
+            }
+            set
+            {
+                this.codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public bool error
         {
             get
@@ -623,7 +639,7 @@ namespace ServiceReference
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string msg
         {
             get
@@ -740,12 +756,28 @@ namespace ServiceReference
     public partial class resFileDownload : resStatus
     {
         
+        private string fileUUIDField;
+        
         private string fileNameField;
         
         private byte[] fileContentField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string fileUUID
+        {
+            get
+            {
+                return this.fileUUIDField;
+            }
+            set
+            {
+                this.fileUUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string fileName
         {
             get
@@ -759,7 +791,7 @@ namespace ServiceReference
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", Order=2)]
         public byte[] fileContent
         {
             get
@@ -1719,7 +1751,12 @@ namespace ServiceReference
         {
             if ((endpointConfiguration == EndpointConfiguration.ServiceImpPort))
             {
-                return new System.ServiceModel.EndpointAddress("http://gateway:8080/service");
+                string serviceUrl = Environment.GetEnvironmentVariable("SERVICE_URL");
+                if (string.IsNullOrEmpty(serviceUrl))
+                {
+                    throw new ApplicationException("SERVICE_URL env not found!");
+                }
+                return new System.ServiceModel.EndpointAddress(serviceUrl);
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }
