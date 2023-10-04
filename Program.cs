@@ -8,6 +8,11 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,16 +27,8 @@ if (app.Environment.IsDevelopment())
 
 //Temporaly disabled HTTP -> HTTPS redirection
 //app.UseHttpsRedirection();
-
 //app.UseAuthorization();
 
-app.Map("/proxy", app =>
-{
-    app.UseRouting();
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-});
+app.MapControllers();
 
 app.Run();

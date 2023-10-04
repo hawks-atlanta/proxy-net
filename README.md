@@ -8,13 +8,9 @@ Proxy service intended to forward traffic between clients and `gateway-java` so 
 
 ## Features
 
-- [ ] LoginController
+_Coming Soon added OpenAPI update_ #14 & #20
 
-- [ ] RegisterController
-
-- [ ] ChallengeController
-
-  Each API functionality could be access as listed in the table below:
+- [ ] Each API functionality could be access as listed in the table below:
 
 <table>
   <tbody>
@@ -43,11 +39,12 @@ Proxy service intended to forward traffic between clients and `gateway-java` so 
       <td>POST</td>
       <td>/refreshtoken</td>
       <td class='text-align:center'>No</td>
-      <td>Validate Token User (Bearer Authentication)</td>
+      <td>Validate Token User (send "token": token)</td>
       <td>Validate token/user and return a JWT.</td>
     </tr>
   </tbody>
 </table>
+
 
 ## Step for running the PROXY-NET
 
@@ -71,9 +68,38 @@ docker compose up -d
 
 Services port & route:
 
-`http://localhost:8084/proxy`
+`http://localhost:8084/ROUTES`
+
+Note: In the [Docker-Compose FILE](https://github.com/hawks-atlanta/proxy-net/blob/main/docker-compose.yaml) edit the service you want to test with, for development use the same service that the gateway container provides and for production the URL of your ONLINE service.
+
+### **Example:**
+
+In Docker-Compose:
+
+``````yaml
+  # Proxy-net
+  # Local/Docker http://gateway:8080/service (Gateway Container)
+  # Remote       http://URL-YOUR-SOAP-PR/service
+....
+    environment:
+      - SERVICE_URL=http://gateway:8080/service 
+``````
+
+`Note: It is not necessary to add ?WSDL | connect to Localhost with using name "gateway" container`
+
+With this config of Docker-Compose is auto impl in DockerFile:
+``````yaml
+...more lines
+ARG ASPNETCORE_URLS
+ARG SERVICE_URL
+ENV ASPNETCORE_URLS=$ASPNETCORE_URLS
+ENV SERVICE_URL=$SERVICE_URL
+...more lines
+``````
 
 ## For Development
+
+---
 
 #### Opening the project
 
@@ -103,3 +129,26 @@ dotnet build
 ```sh
 dotnet run
 ```
+
+## ⚠️WARNING! for updates in [Gateway-SOAP](https://github.com/hawks-atlanta/gateway-java):
+
+To add the service either localhost or remote from the SOAP GATEWAY, the ENV `SERVICE_URL` reading is created, in the file [References.cs](https://github.com/hawks-atlanta/proxy-net/blob/main/ServiceReference/Reference.cs) implement this code:
+
+``````c#
+private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
+{
+    if ((endpointConfiguration == EndpointConfiguration.ServiceImpPort))
+    {
+        string serviceUrl = Environment.GetEnvironmentVariable("SERVICE_URL");
+        if (string.IsNullOrEmpty(serviceUrl))
+        {
+            throw new ApplicationException("SERVICE_URL env not found!");
+        }
+        return new System.ServiceModel.EndpointAddress(serviceUrl);
+    }
+    throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
+}
+``````
+
+🚨**NOTE!: **When you want to make a new update to the interface provided in the References file you need to add this line of code, be careful not to touch other lines of code!
+
