@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.1.0 (2023-10-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* change routing /proxy #21
+
+* docs: update with new features
+
+* fix: deleted git makers
+
+* ✨feat: added new soap gateway (#24) ([5947cf8](https://github.com/hawks-atlanta/proxy-net/commit/5947cf87dff20992aac7de0395d5090417f5563d)), closes [#24](https://github.com/hawks-atlanta/proxy-net/issues/24) [#18](https://github.com/hawks-atlanta/proxy-net/issues/18) [#19](https://github.com/hawks-atlanta/proxy-net/issues/19) [#22](https://github.com/hawks-atlanta/proxy-net/issues/22)
+
 ### 0.0.7 (2023-10-04)
 
 ### 0.0.6 (2023-10-01)
