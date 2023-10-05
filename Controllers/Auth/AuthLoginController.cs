@@ -7,12 +7,12 @@ namespace proxy_net.Controllers.Auth
 {
     [ApiController]
     [Route("auth")]
-    public class LoginController : ControllerBase
+    public class AuthLoginController : ControllerBase
     {
-        private readonly ILogger<LoginController> _logger;
+        private readonly ILogger<AuthLoginController> _logger;
         private readonly IAuthRepository _authRepository;
 
-        public LoginController(ILogger<LoginController> logger, IAuthRepository authRepository)
+        public AuthLoginController(ILogger<AuthLoginController> logger, IAuthRepository authRepository)
         {
             _logger = logger;
             _authRepository = authRepository;

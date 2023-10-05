@@ -1,25 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using proxy_net.Adapters;
 using proxy_net.Models.Auth.Entities;
 using proxy_net.Repositories;
 using ServiceReference;
 
-namespace proxy_net.Controllers.Auth
+namespace proxy_net.Controllers.Account
 {
     [ApiController]
     [Route("account")]
-    public class RegisterController : ControllerBase
+    public class AccountRegisterController : ControllerBase
     {
-        private readonly ILogger<RegisterController> _logger;
+        private readonly ILogger<AccountRegisterController> _logger;
         private readonly IAuthRepository _authRepository;
 
-        public RegisterController(ILogger<RegisterController> logger, IAuthRepository authRepository)
+        public AccountRegisterController(ILogger<AccountRegisterController> logger, IAuthRepository authRepository)
         {
             _logger = logger;
             _authRepository = authRepository;
         }
 
-        [HttpPost("register",Name = "Account_Register")]
+        [HttpPost("register", Name = "Account_Register")]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))

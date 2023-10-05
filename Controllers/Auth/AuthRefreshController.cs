@@ -5,11 +5,11 @@ namespace proxy_net.Controllers.Auth
 {
     [ApiController]
     [Route("auth")]
-    public class RefreshTokenController : ControllerBase
+    public class AuthRefreshController : ControllerBase
     {
-        private readonly ILogger<LoginController> _logger;
+        private readonly ILogger<AuthLoginController> _logger;
 
-        public RefreshTokenController(ILogger<LoginController> logger)
+        public AuthRefreshController(ILogger<AuthLoginController> logger)
         {
             _logger = logger;
         }

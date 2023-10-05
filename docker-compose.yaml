@@ -88,7 +88,7 @@ services:
   # Local/Docker http://gateway:8080/service
   # Remote       http://capyfile1.bucaramanga.upb.edu.co/service
   proxy-net:
-    container_name: proxy-net
+    container_name: proxy-net   
     build:
       context: .
       dockerfile: Dockerfile
