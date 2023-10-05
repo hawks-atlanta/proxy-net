@@ -95,6 +95,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:80
       - SERVICE_URL=http://gateway:8080/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
+      - ASPNETCORE_ENVIRONMENT=Development      # Development | Production
     ports:
       - 8084:80
     depends_on:
