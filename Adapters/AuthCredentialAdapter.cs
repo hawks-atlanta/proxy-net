@@ -1,7 +1,7 @@
 ﻿using proxy_net.Models.Auth.Entities;
 using ServiceReference;
 
-namespace proxy_net.Controllers.Adapters
+namespace proxy_net.Adapters
 {
     public static class AdaptersToSoap
     {

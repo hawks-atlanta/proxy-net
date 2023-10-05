@@ -4,7 +4,7 @@ using proxy_net.Models.Auth.Entities;
 namespace proxy_net.Controllers.Auth
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("auth")]
     public class RefreshTokenController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
@@ -14,7 +14,7 @@ namespace proxy_net.Controllers.Auth
             _logger = logger;
         }
 
-        [HttpPost(Name = "RefreshToken")]
+        [HttpPost("refresh", Name = "Auth_Refresh")]
         //When using NEW refreshToken/Challenge change to:
         //TODO:
         //public async Task<IActionResult> Post([FromBody] User token)
