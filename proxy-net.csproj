@@ -21,4 +21,9 @@
     <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
     <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adapters\File\" />
+    <Folder Include="Adapters\UnShare\" />
+    <Folder Include="Adapters\Share\" />
+  </ItemGroup>
 </Project>

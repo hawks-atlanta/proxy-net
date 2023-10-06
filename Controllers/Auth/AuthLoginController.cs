@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using proxy_net.Models.Auth.Entities;
 using proxy_net.Repositories;
 using ServiceReference;
 
@@ -20,16 +19,16 @@ namespace proxy_net.Controllers.Auth
 
         [HttpPost("login",Name = "Auth_Login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(auth_loginResponse))]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] credentials credentials)
         {
-            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrEmpty(credentials.username) || string.IsNullOrEmpty(credentials.password))
             {
                 return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
             }
 
             try
             {
-                auth_loginResponse response = await _authRepository.LoginAsync(user);
+                auth_loginResponse response = await _authRepository.LoginAsync(credentials);
 
                 if (response?.@return == null)
                 {

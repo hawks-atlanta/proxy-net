@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using proxy_net.Models.Auth.Entities;
 using proxy_net.Repositories;
 using ServiceReference;
 
@@ -10,24 +9,24 @@ namespace proxy_net.Controllers.Account
     public class AccountRegisterController : ControllerBase
     {
         private readonly ILogger<AccountRegisterController> _logger;
-        private readonly IAuthRepository _authRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountRegisterController(ILogger<AccountRegisterController> logger, IAuthRepository authRepository)
+        public AccountRegisterController(ILogger<AccountRegisterController> logger, IAccountRepository accountRepository)
         {
             _logger = logger;
-            _authRepository = authRepository;
+            _accountRepository = accountRepository;
         }
 
         [HttpPost("register", Name = "Account_Register")]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] credentials credentials)
         {
-            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrEmpty(credentials.username) || string.IsNullOrEmpty(credentials.password))
             {
                 return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
             }
             try
             {
-                account_registerResponse response = await _authRepository.RegisterAsync(user);
+                account_registerResponse response = await _accountRepository.AccountRegisterAsync(credentials);
                 if (response?.@return != null)
                 {
                     if (response.@return.error)
@@ -41,7 +40,7 @@ namespace proxy_net.Controllers.Account
                     }
                     else if (!string.IsNullOrEmpty(response.@return.auth?.token))
                     {
-                        return Created(string.Empty, new { Token = response.@return.auth.token });
+                        return Created(string.Empty, new { response.@return.auth.token });
                     }
                 }
             }
