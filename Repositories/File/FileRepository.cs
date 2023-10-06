@@ -23,5 +23,13 @@ namespace proxy_net.Repositories
             }
 
         }
+
+        public async Task<file_downloadResponse> FileDownloadAsync(reqFile reqFile)
+        {
+            using (var client = new ServiceClient())
+            {
+                return await client.file_downloadAsync(reqFile);
+            }
+        }
     }
 }
