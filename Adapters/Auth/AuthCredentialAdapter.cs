@@ -1,11 +1,14 @@
-﻿using proxy_net.Models.Auth.Entities;
+﻿
+/*
+using proxy_net.Models.Auth;
+using proxy_net.Models.Auth.Entities;
 using ServiceReference;
 
-namespace proxy_net.Adapters
+namespace proxy_net.Adapters.Auth
 {
     public static class AdaptersToSoap
     {
-        public static credentials ConvertToCredentials(User user)
+        public static credentials ConvertToCredentials(Account user)
         {
             return new credentials
             {
@@ -22,3 +25,4 @@ namespace proxy_net.Adapters
         }
     }
 }
+*/

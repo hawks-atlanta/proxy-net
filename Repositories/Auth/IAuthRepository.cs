@@ -1,12 +1,10 @@
-﻿using proxy_net.Models.Auth.Entities;
-using ServiceReference;
-using System.Threading.Tasks;
+﻿using ServiceReference;
 
 namespace proxy_net.Repositories
 {
     public interface IAuthRepository
     {
-        Task<auth_loginResponse> LoginAsync(User user);
-        Task<account_registerResponse> RegisterAsync(User user);
+        Task<auth_loginResponse> LoginAsync(credentials credentials);
+        Task<auth_refreshResponse> RefreshAsync(authorization authorization);
     }
 }
