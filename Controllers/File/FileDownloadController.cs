@@ -24,6 +24,7 @@ namespace proxy_net.Controllers.Account
             {
                 return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
             }
+
             try
             {
                 file_downloadResponse response = await _fileRepository.FileDownloadAsync(reqFile);
@@ -37,7 +38,22 @@ namespace proxy_net.Controllers.Account
                     string errorMessage = response.@return.msg;
                     return StatusCode(StatusCodes.Status401Unauthorized, errorMessage);
                 }
-                return Ok(new { response.@return });
+
+                //`fileContent` es el byte[] que contiene los datos del archivo.
+                byte[] fileContent = response.@return.fileContent;
+
+                // Codificar el contenido del archivo a Base64
+                string fileContentBase64;
+                try
+                {
+                    fileContentBase64 = Convert.ToBase64String(fileContent);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al codificar el archivo.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error al codificar el archivo.");
+                }
+                return Ok(new { FileContent = fileContentBase64, FileName = response.@return.fileName });
             }
             catch (Exception ex)
             {

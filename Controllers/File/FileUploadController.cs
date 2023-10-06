@@ -19,27 +19,33 @@ namespace proxy_net.Controllers.File
 
         [HttpPost("upload", Name = "File_Upload")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(file_uploadResponse))]
-        public async Task<IActionResult> Post(IFormFile file, [FromForm] string token)
+        public async Task<IActionResult> Post([FromForm] string fileContentBase64, [FromForm] string fileName, [FromForm] string token)
         {
-            if (file == null || file.Length == 0)
+            if (string.IsNullOrEmpty(fileContentBase64) || string.IsNullOrEmpty(fileName))
             {
-                return BadRequest("File is not selected");
+                return BadRequest("File or file name is not provided");
             }
 
-            byte[] fileContent = await GetFileContentAsync(file);
-
+            byte[] fileContent;
             try
             {
-                var reqFileUpload = new reqFileUpload
-                {
-                    fileName = file.FileName,
-                    fileContent = fileContent,
-                    location = null,
-                    token = token
-                };
-
+                fileContent = Convert.FromBase64String(fileContentBase64);
+            }
+            catch (FormatException ex)
+            {
+                _logger.LogError(ex, "Error al decodificar el archivo.");
+                return BadRequest("File is not properly base64 encoded");
+            }
+            var reqFileUpload = new reqFileUpload
+            {
+                fileName = fileName,
+                fileContent = fileContent,
+                location = null,
+                token = token
+            };
+            try
+            {
                 file_uploadResponse response = await _fileRepository.FileUploadAsync(reqFileUpload);
-
                 return HandleFileUploadResponse(response);
             }
             catch (Exception ex)
@@ -48,16 +54,6 @@ namespace proxy_net.Controllers.File
                 throw;
             }
         }
-
-        private async Task<byte[]> GetFileContentAsync(IFormFile file)
-        {
-            using (var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-                return stream.ToArray();
-            }
-        }
-
         private IActionResult HandleFileUploadResponse(file_uploadResponse response)
         {
             if (response?.@return != null)
