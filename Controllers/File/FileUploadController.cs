@@ -21,21 +21,14 @@ namespace proxy_net.Controllers.File
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(file_uploadResponse))]
         public async Task<IActionResult> Post([FromForm] string fileContentBase64, [FromForm] string fileName, [FromForm] string token)
         {
-            if (string.IsNullOrEmpty(fileContentBase64) || string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileContentBase64) || string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(token))
             {
-                return BadRequest("File or file name is not provided");
+                return BadRequest("Uno o más campos requeridos no se proporcionaron.");
             }
 
-            byte[] fileContent;
-            try
-            {
-                fileContent = Convert.FromBase64String(fileContentBase64);
-            }
-            catch (FormatException ex)
-            {
-                _logger.LogError(ex, "Error al decodificar el archivo.");
-                return BadRequest("File is not properly base64 encoded");
-            }
+            byte[] fileContent = Base64Converter.DecodeBase64(fileContentBase64);
+
+            //DTO para el request (encapsular y transportar datos)
             var reqFileUpload = new reqFileUpload
             {
                 fileName = fileName,
@@ -43,6 +36,7 @@ namespace proxy_net.Controllers.File
                 location = null,
                 token = token
             };
+
             try
             {
                 file_uploadResponse response = await _fileRepository.FileUploadAsync(reqFileUpload);
@@ -58,17 +52,36 @@ namespace proxy_net.Controllers.File
         {
             if (response?.@return != null)
             {
-                return Created(string.Empty, new { response.@return.fileUUID });
+                if (string.Equals(response?.@return.msg, "unauthorized", StringComparison.OrdinalIgnoreCase))
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, new { msg = "unauthorized", fileUUID = (string?)null, error = true });
+                }
+                else if (response?.@return.error == true || response?.@return.fileUUID == null)
+                {
+                    _logger.LogError("Error from the SOAP service: {0}", new { response?.@return.msg, response?.@return.fileUUID, response?.@return.error });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { response?.@return.msg, response?.@return.fileUUID, response?.@return.error });
+                }
+                return Created(string.Empty, new { response?.@return.fileUUID });
             }
             else
             {
-                if (response?.@return.error == true)
-                {
-                    _logger.LogError("Error from the SOAP service: {0}", response.@return.msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.@return.msg);
-                }
                 _logger.LogError("Invalid response from the SOAP service");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Invalid response from the SOAP service");
+            }
+        }
+
+        public class Base64Converter
+        {
+            public static byte[] DecodeBase64(string base64)
+            {
+                try
+                {
+                    return Convert.FromBase64String(base64);
+                }
+                catch (FormatException ex)
+                {
+                    throw new ArgumentException("Invalid Base64 format", ex);
+                }
             }
         }
     }
