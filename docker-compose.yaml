@@ -86,7 +86,7 @@ services:
     depends_on:
       - authentication-db
       - metadata-db
-  # Local/Docker http://gateway:8080/service
+  # Local/Docker http://gateway:8080/gw/service
   # Remote       http://capyfile1.bucaramanga.upb.edu.co/service
   proxy-net:
     container_name: proxy-net
@@ -95,7 +95,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_URLS=http://+:8080
-      - SERVICE_URL=http://gateway:8080/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
+      - SERVICE_URL=http://gateway:8080/gw/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
     ports:
       - 8084:8080
     depends_on:
