@@ -7,7 +7,6 @@ namespace proxy_net.Repositories
     {
         public async Task<file_uploadResponse> FileUploadAsync(reqFileUpload reqFileUpload)
         {
-            //var credentials = AdaptersToSoap.ConvertToCredentials(user);
             using (var client = new ServiceClient())
             {
                 return await client.file_uploadAsync(reqFileUpload);
@@ -16,7 +15,6 @@ namespace proxy_net.Repositories
 
         public async Task<file_checkResponse> FileCheckAsync(reqFile reqFile)
         {
-            //var credentials = AdaptersToSoap.ConvertToCredentials(user);
             using (var client = new ServiceClient())
             {
                 return await client.file_checkAsync(reqFile);
@@ -45,6 +43,22 @@ namespace proxy_net.Repositories
             using (var client = new ServiceClient())
             {
                 return await client.file_moveAsync(reqFileMove);
+            }
+        }
+
+        public async Task<file_listResponse> FileListAsync(reqFileList reqFileList)
+        {
+            using (var client = new ServiceClient())
+            {
+                return await client.file_listAsync(reqFileList);
+            }
+        }
+
+        public async Task<file_deleteResponse> FileDeleteAsync(reqFileDelete reqFileDelete)
+        {
+            using (var client = new ServiceClient())
+            {
+                return await client.file_deleteAsync(reqFileDelete);
             }
         }
     }

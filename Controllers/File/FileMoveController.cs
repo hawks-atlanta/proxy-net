@@ -11,17 +11,17 @@ namespace proxy_net.Controllers.File
     [Route("file")]
     public class FileMoveController : ControllerBase
     {
-        private readonly ILogger<FileNewDirectoryController> _logger;
+        private readonly ILogger<FileMoveController> _logger;
         private readonly IFileRepository _fileRepository;
 
-        public FileMoveController(ILogger<FileNewDirectoryController> logger, IFileRepository fileRepository)
+        public FileMoveController(ILogger<FileMoveController> logger, IFileRepository fileRepository)
         {
             _logger = logger;
             _fileRepository = fileRepository;
         }
 
-        [HttpPost("move", Name = "File_Move")]
-        public async Task<IActionResult> Post([FromBody] reqFileMove reqFileMove)
+        [HttpPut("move", Name = "File_Move")]
+        public async Task<IActionResult> Pust([FromBody] reqFileMove reqFileMove)
         {
             if (reqFileMove == null || string.IsNullOrEmpty(reqFileMove.fileUUID)
                 || string.IsNullOrEmpty(reqFileMove.token)
