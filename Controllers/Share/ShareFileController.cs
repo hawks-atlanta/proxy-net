@@ -36,7 +36,6 @@ namespace proxy_net.Controllers.Share
             try
             {
                 share_fileResponse response = await _shareRepository.ShareFile(reqShareFile);
-                //TODO: no enviar por body la respuesta
                 if (response.@return.error)
                 {
                     var adapter = new ResponseAdapter(() => new ResponseError
