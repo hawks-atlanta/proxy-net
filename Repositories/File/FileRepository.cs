@@ -38,7 +38,14 @@ namespace proxy_net.Repositories
             {
                 return await client.file_new_dirAsync(reqFileNewDir);
             }
+        }
 
+        public async Task<file_moveResponse> FileMoveAsync(reqFileMove reqFileMove)
+        {
+            using (var client = new ServiceClient())
+            {
+                return await client.file_moveAsync(reqFileMove);
+            }
         }
     }
 }
