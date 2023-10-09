@@ -6,46 +6,6 @@
 
 Proxy service intended to forward traffic between clients and `gateway-java` so they don't need to suffer `SOAP`
 
-## Features
-
-_Coming Soon added OpenAPI update_ #14 & #20
-
-- [ ] Each API functionality could be access as listed in the table below:
-
-<table>
-  <tbody>
-    <tr>
-      <th>Verb</th>
-      <th>URI</th>
-      <th>Auth Needed?</th>
-      <th>Method</th>
-      <th>Description</th>
-    </tr>
-    <tr>
-      <td>POST</td>
-      <td>/login</td>
-      <td class='text-align:center'>No</td>
-      <td>Authenticate/Login User</td>
-      <td>Authenticate an user and return a JWT.</td>
-    </tr>
-    <tr>
-      <td>POST</td>
-      <td>/register</td>
-      <td class='text-align:center'>No</td>
-      <td>Register user</td>
-      <td>Register user and return a JWT.</td>
-    </tr>    
-    <tr>
-      <td>POST</td>
-      <td>/refreshtoken</td>
-      <td class='text-align:center'>No</td>
-      <td>Validate Token User (send "token": token)</td>
-      <td>Validate token/user and return a JWT.</td>
-    </tr>
-  </tbody>
-</table>
-
-
 ## Step for running the PROXY-NET
 
 Clone the repo:
