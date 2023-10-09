@@ -27,9 +27,14 @@ namespace proxy_net.Controllers.Auth
         //public async Task<IActionResult> Post([FromBody] User token)
         public async Task<IActionResult> Post([FromBody] authorization authorization)
         {
-            if (authorization == null)
+            if (authorization == null || string.IsNullOrEmpty(authorization.token))
             {
-                return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
+                return BadRequest(new ResponseError
+                {
+                    code = 400,
+                    msg = "El cuerpo de la solicitud es nulo o incompleto",
+                    error = true
+                });
             }
             try
             {

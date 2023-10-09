@@ -26,7 +26,12 @@ namespace proxy_net.Controllers.File
         {
             if (string.IsNullOrEmpty(fileContentBase64) || string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(token))
             {
-                return BadRequest("Uno o más campos requeridos no se proporcionaron.");
+                return BadRequest(new ResponseError
+                {
+                    code = 400,
+                    msg = "El cuerpo de la solicitud es nulo o incompleto",
+                    error = true
+                });
             }
 
             byte[] fileContent = Base64Converter.DecodeBase64(fileContentBase64);

@@ -23,7 +23,7 @@ namespace proxy_net.Controllers.Share
         [HttpPost("list", Name = "Share_List")]
         public async Task<IActionResult> Post([FromBody] authorization authorization)
         {
-            if (authorization == null || authorization.token == null)
+            if (authorization == null || string.IsNullOrEmpty(authorization.token))
             {
                 return BadRequest(new ResponseError
                 {

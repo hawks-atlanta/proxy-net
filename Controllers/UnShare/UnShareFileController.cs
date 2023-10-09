@@ -24,7 +24,7 @@ namespace proxy_net.Controllers.Share
         [HttpPost("file", Name = "UnShare_File")]
         public async Task<IActionResult> Post([FromBody] reqShareRemove reqShareRemove)
         {
-            if (reqShareRemove == null)
+            if (reqShareRemove == null || string.IsNullOrEmpty(reqShareRemove.fileUUID) || string.IsNullOrEmpty(reqShareRemove.otherUsername))
             {
                 return BadRequest(new ResponseError
                 {
@@ -37,7 +37,6 @@ namespace proxy_net.Controllers.Share
             try
             {
                 unshare_fileResponse response = await _unshareRepository.UnShareFile(reqShareRemove);
-                //TODO: no enviar por body la respuesta
                 if (response.@return.error)
                 {
                     var adapter = new ResponseAdapter(() => new ResponseError
@@ -48,7 +47,7 @@ namespace proxy_net.Controllers.Share
                     });
                     return this.HandleResponseError<IResponse>(adapter);
                 }
-                return Ok( new { response.@return.msg });
+                return Ok(new { response.@return.msg });
             }
             catch (Exception ex)
             {

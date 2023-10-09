@@ -26,7 +26,12 @@ namespace proxy_net.Controllers.Auth
         {
             if (string.IsNullOrEmpty(credentials.username) || string.IsNullOrEmpty(credentials.password))
             {
-                return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
+                return BadRequest(new ResponseError
+                {
+                    code = 400,
+                    msg = "El cuerpo de la solicitud es nulo o incompleto.",
+                    error = true
+                });
             }
 
             try

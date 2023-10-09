@@ -25,7 +25,12 @@ namespace proxy_net.Controllers.Account
         {
             if (string.IsNullOrEmpty(reqAccPassword.oldpassword) || string.IsNullOrEmpty(reqAccPassword.newpassword) || string.IsNullOrEmpty(reqAccPassword.token))
             {
-                return BadRequest("El cuerpo de la solicitud es nulo o incompleto.");
+                return BadRequest(new ResponseError
+                {
+                    code = 400,
+                    msg = "El cuerpo de la solicitud es nulo o incompleto.",
+                    error = true
+                });
             }
             try
             {

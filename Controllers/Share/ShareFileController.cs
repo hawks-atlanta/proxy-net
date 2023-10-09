@@ -23,7 +23,10 @@ namespace proxy_net.Controllers.Share
         [HttpPost("file", Name = "Share_File")]
         public async Task<IActionResult> Post([FromBody] reqShareFile reqShareFile)
         {
-            if (reqShareFile == null)
+            if (reqShareFile == null ||
+                string.IsNullOrEmpty(reqShareFile.fileUUID) ||
+                string.IsNullOrEmpty(reqShareFile.otherUsername) ||
+                string.IsNullOrEmpty(reqShareFile.token))
             {
                 return BadRequest(new ResponseError
                 {
