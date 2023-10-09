@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using proxy_net.Models.Auth.Entities;
+using proxy_net.Adapters;
+using proxy_net.Handler;
+using proxy_net.Models;
 using proxy_net.Repositories;
-using proxy_net.Repositories.Account;
 using ServiceReference;
 
 namespace proxy_net.Controllers.Account
@@ -29,24 +30,23 @@ namespace proxy_net.Controllers.Account
             try
             {
                 account_passwordResponse response = await _accountRepository.AccountPasswordAsync(reqAccPassword);
-
                 if (response?.@return == null)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o inválida.");
                 }
                 if (response.@return.error)
                 {
-                    string errorMessage = response.@return.msg;
-                    return StatusCode(StatusCodes.Status401Unauthorized, errorMessage);
+                    var adapter = new ResponseAdapter(() => new ResponseError
+                    {
+                        code = response.@return.code,
+                        msg = response.@return.msg,
+                        error = response.@return.error
+                    });
+
+                    return this.HandleResponseError<IResponse>(adapter);
                 }
                 //TODO: change response!
-                string authToken = response?.@return.code.ToString() ?? string.Empty;
-                if (string.IsNullOrEmpty(authToken))
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Token de autenticación no válido.");
-                }
-                //TODO: change response!
-                return Ok(new { OK = response });
+                return Ok(new { response });
             }
             catch (Exception ex)
             {

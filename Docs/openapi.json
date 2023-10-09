@@ -1,117 +1,995 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "proxy-net",
-    "version": "1.0"
-  },
-  "paths": {
-    "/Challenge": {
-      "post": {
-        "tags": [
-          "Challenge"
-        ],
-        "operationId": "challenge",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/Login": {
-      "post": {
-        "tags": [
-          "Login"
-        ],
-        "operationId": "login",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/Register": {
-      "post": {
-        "tags": [
-          "Register"
-        ],
-        "operationId": "register",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "jwtToken": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      }
-    }
-  }
+	"info": {
+		"_postman_id": "08def7dd-7e1f-47ab-863a-e775fb736171",
+		"name": "proxy-net",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24137599"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "/auth/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username1\",\r\n    \"password\": \"Contra2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 /auth/login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"username1\",\r\n    \"password\": \"Contra2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "222"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:01:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4OTcsInV1aWQiOiI1YTE2NjExYy0yM2QzLTRlYjYtYmMzZi00MDIyYjQ0OTQwODUifQ.BEJ3o1tm148uIt3QeGxMD_eb2bMWa7u8SDjOlZr29yBXRMFXhM-LiStsnNasc42CwUzf7kI_LLmqAbP5Xnt3pg\"\n}"
+						}
+					]
+				},
+				{
+					"name": "/auth/refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTgzNzg5MDUsInV1aWQiOiI4NTA3MGFmMi00ZGZhLTQyZDYtYmMyMy05YmU0ZWY1ZDFkMDYifQ.vVbl1j2OmXXkoVQ2M8nZcB45lZek7pTBAUUDsfYjNC8b2A6jwQzoSxMXTNonHbE5EYayCUAJN15hbvuz7vyLsw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTg2MjUyMDAsInV1aWQiOiI4ZTBiZTk5NS0zYTY1LTRmMjctODliZS0xN2RmZDE2ZGM3MjUifQ.uIKsyMlHeFWhmiFxrb-_VW8RCGm4_2HMkE6NaNtcc6UY3M01GoRCU09Aa87wTXu8_zDq-SGGS52LFbd5BCvH-Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NTQsInV1aWQiOiI0YmMyMTkwZi1jMmJiLTRkZTItYmE3Ni1jYTlhY2Y1NzA4NWIifQ.US_EL4V5e-YUkwRVkAB6Q7YNjsBbjg7yMuDN9NYzYYX2uTjp7_jji-ToLSjc6uJXPdy5dyJ4N1D8D0FsxD2g8A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "/auth/refresh",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTg2MjUyMDAsInV1aWQiOiI4ZTBiZTk5NS0zYTY1LTRmMjctODliZS0xN2RmZDE2ZGM3MjUifQ.uIKsyMlHeFWhmiFxrb-_VW8RCGm4_2HMkE6NaNtcc6UY3M01GoRCU09Aa87wTXu8_zDq-SGGS52LFbd5BCvH-Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkzOTc5ODgsInV1aWQiOiJmYzc2OGU4Zi0yZWUxLTRmM2YtYTAwZC1hZDcwZDIxOTllMDIifQ.X21e9ghAW2mouEXxw30vJHSnxQFS6cyH_YFfZFFMkHQG1Ao_tPH9Ct_PDPw6R4eInMA-P2_tALnJFuZrhW5quA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/auth/refresh",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "222"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 08 Oct 2023 23:03:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkzOTgyMjcsInV1aWQiOiJmYzc2OGU4Zi0yZWUxLTRmM2YtYTAwZC1hZDcwZDIxOTllMDIifQ.iszZtY1H28bqRqu2t2uZeSEVN5IQ_iXqUEl3phhTHidTvIiYQrn6v2Hj2w5rJ58CXfzPXlELyoH4Gj9NQBFEzw\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "/account/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username1\",\r\n    \"password\": \"Contra2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/account/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 /account/register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/account/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"account",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "222"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Oct 2023 17:48:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxMjAwODksInV1aWQiOiIwNDA4OGZmNi02N2M3LTQ2ZWItOTAyZC0xNzYxMzZiOTVjNjQifQ.Erl-7s71MvGLa0NhHPVkmanOqneMPJc2ttXhZ-sTTb1DF9IZy6SzTAmPva8kPqAN041xXJITEupf_r4eY6depw\"\n}"
+						}
+					]
+				},
+				{
+					"name": "/account/password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldpassword\": \"password\",\r\n  \"newpassword\": \"password1\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxMjAxNzMsInV1aWQiOiJmYTQ3OWEyZi0yYmVjLTRjMzEtYTRkZS1jZGNlZmRhMTgwZTcifQ.6pqsTkqckU0AxJSZiKuPxbneP_cfs1U-UQEln0MMtIECI5Pk1_Jzy1SBVzfrEJgXWDIacUEA9cmUbYoB0xEUqg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/account/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"account",
+								"password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "404 /account/register Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"oldpassword\": \"password\",\r\n  \"newpassword\": \"password1\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxMjAxNzMsInV1aWQiOiJmYTQ3OWEyZi0yYmVjLTRjMzEtYTRkZS1jZGNlZmRhMTgwZTcifQ.6pqsTkqckU0AxJSZiKuPxbneP_cfs1U-UQEln0MMtIECI5Pk1_Jzy1SBVzfrEJgXWDIacUEA9cmUbYoB0xEUqg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/account/password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"account",
+										"password"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Oct 2023 17:49:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "La respuesta del servicio SOAP es nula o inválida."
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "file",
+			"item": [
+				{
+					"name": "/file/upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileContentBase64",
+									"value": "SG9sYQ==",
+									"type": "text"
+								},
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NTQsInV1aWQiOiI0YmMyMTkwZi1jMmJiLTRkZTItYmE3Ni1jYTlhY2Y1NzA4NWIifQ.US_EL4V5e-YUkwRVkAB6Q7YNjsBbjg7yMuDN9NYzYYX2uTjp7_jji-ToLSjc6uJXPdy5dyJ4N1D8D0FsxD2g8A",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "fileName",
+									"value": "Hola2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/file/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 /file/upload",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "agile-software-development/continuous-delivery.pdf"
+										},
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxOTUyMDgsInV1aWQiOiI1ODViMWU2OS1mMzNlLTRjMWUtYjQ2NC01Zjc0ZTIwYWIxMTEifQ.I5id05MAUuwyZ9fjR4v4k3ruAr6pJVN4P4GmlXJquqYQzrI6qduHdUaE6so9TlJqKag8HnYPdTj97w_pU_K0zw",
+											"contentType": "application/json",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "6e209ed2-12a5-4c12-b23d-6b5966254ee5",
+											"description": "1",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"upload"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Oct 2023 15:47:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileUUID\": \"83ef196f-3dfd-449c-a644-0f828fd1155d\"\n}"
+						}
+					]
+				},
+				{
+					"name": "/file/download",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileUUID\": \"752c312b-5845-43a0-8372-d788d4a0f036\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MDM0MjcsInV1aWQiOiIyYzk4OGFhZi0zNmYwLTQ4ZTUtYjlmZS1lNmY1NjkwYWYwY2UifQ.tORQ4i3UxhYwpSzkEBDGJY21hx0KY2pPcLLU5iLAeZ2vSpbilmsEHpxluP05dc1dlZbTDf75M6L1BFTE51tPCg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/file/download",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"file",
+								"download"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 /file/download",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fileUUID\": \"47740927-3f27-4d50-b267-02a970e39fda\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MDIyMTgsInV1aWQiOiJmYzc2OGU4Zi0yZWUxLTRmM2YtYTAwZC1hZDcwZDIxOTllMDIifQ.YIuuWfoco4b4aUbwq3_qAcixVSL9ZO6J_qaqxiGNgMuE25isX6HLJfZFIq1kodcizQr8NzcQBhiISi_010JdaQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/download",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"download"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 00:11:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileContent\": \"SG9sYQ==\",\n    \"fileName\": \"Holaa\"\n}"
+						},
+						{
+							"name": "401 /file/download",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fileUUID\": \"752c312b-5845-43a0-8372-d788d4a0f036\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MDM0MjcsInV1aWQiOiIyYzk4OGFhZi0zNmYwLTQ4ZTUtYjlmZS1lNmY1NjkwYWYwY2UifQ.tORQ4i3UxhYwpSzkEBDGJY21hx0KY2pPcLLU5iLAeZ2vSpbilmsEHpxluP05dc1dlZbTDf75M6L1BFTE51tPCg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/download",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"download"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 00:30:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "The user can't read the file"
+						},
+						{
+							"name": "403 /file/download",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fileUUID\": \"d884fca5-f6cd-43f5-a5a6-f0c3aa162306\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NTQsInV1aWQiOiI0YmMyMTkwZi1jMmJiLTRkZTItYmE3Ni1jYTlhY2Y1NzA4NWIifQ.US_EL4V5e-YUkwRVkAB6Q7YNjsBbjg7yMuDN9NYzYYX2uTjp7_jji-ToLSjc6uJXPdy5dyJ4N1D8D0FsxD2g8A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/download",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"download"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "62"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:03:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 403,\n    \"msg\": \"The user can't read the file\",\n    \"error\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "/file/check",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileUUID\": \"83ef196f-3dfd-449c-a644-0f828fd1155d\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxOTkyMzcsInV1aWQiOiI1ODViMWU2OS1mMzNlLTRjMWUtYjQ2NC01Zjc0ZTIwYWIxMTEifQ.A4GmoYIj09Q8Axl2TwB_5XUx_P-4Amj2vjU_WuWN_19hsDb7fUFBIpiCkpJpXSU-b0YisR1QvUlYL9m1DRCu9Q\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/file/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"file",
+								"check"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 /file/check",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fileUUID\": \"83ef196f-3dfd-449c-a644-0f828fd1155d\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxOTkyMzcsInV1aWQiOiI1ODViMWU2OS1mMzNlLTRjMWUtYjQ2NC01Zjc0ZTIwYWIxMTEifQ.A4GmoYIj09Q8Axl2TwB_5XUx_P-4Amj2vjU_WuWN_19hsDb7fUFBIpiCkpJpXSU-b0YisR1QvUlYL9m1DRCu9Q\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/check",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"check"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "14"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Oct 2023 16:24:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ready\": true\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "share",
+			"item": [
+				{
+					"name": "/share/file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fileUUID\": \"8deee94e-2939-4f56-842b-64b522b6469f\",\r\n  \"otherUsername\": \"username2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MDk3NTcsInV1aWQiOiI3YjIyOWU4Yi1mNWE5LTQ5ZjUtYWI1NC0xYjYzYTVlNzUzZmIifQ.xXtK1Ek2OcB57dCVIhFem9lEh-rr9C-mKZNOrZPVrKCdLouaPf_YAhE99IuJ5Ipi3QBjPFWr4F8de6QPoQEYzQ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/share/file",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"share",
+								"file"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "409 The file is already shared with the user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"d884fca5-f6cd-43f5-a5a6-f0c3aa162306\",\r\n  \"otherUsername\": \"username1\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NjMsInV1aWQiOiI1YTE2NjExYy0yM2QzLTRlYjYtYmMzZi00MDIyYjQ0OTQwODUifQ.crrst8Srrp1eUs3a7ZptNCJCjs8CLq6cnEqQhW6ImBOKwweuTtXHUjB1P2cuYiVd7NzMp_Zj9eD-ZYZ5Fe7G9w\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/file",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"file"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:04:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 409,\n    \"msg\": \"The file is already shared with the user\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "204 Content",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"d884fca5-f6cd-43f5-a5a6-f0c3aa162306\",\r\n  \"otherUsername\": \"username2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NjMsInV1aWQiOiI1YTE2NjExYy0yM2QzLTRlYjYtYmMzZi00MDIyYjQ0OTQwODUifQ.crrst8Srrp1eUs3a7ZptNCJCjs8CLq6cnEqQhW6ImBOKwweuTtXHUjB1P2cuYiVd7NzMp_Zj9eD-ZYZ5Fe7G9w\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/file",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"file"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:04:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "500 user or shared no exits / record not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"d884fca5-f6cd-43f5-a5a6-f0c3aa162306\",\r\n  \"otherUsername\": \"username3\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NjMsInV1aWQiOiI1YTE2NjExYy0yM2QzLTRlYjYtYmMzZi00MDIyYjQ0OTQwODUifQ.crrst8Srrp1eUs3a7ZptNCJCjs8CLq6cnEqQhW6ImBOKwweuTtXHUjB1P2cuYiVd7NzMp_Zj9eD-ZYZ5Fe7G9w\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/file",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"file"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "50"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:05:05 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 500,\n    \"msg\": \"record not found\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "404 Not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"d884fca5-f6cd-43f5-a5a6-f0c3aa16206\",\r\n  \"otherUsername\": \"username2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NjMsInV1aWQiOiI1YTE2NjExYy0yM2QzLTRlYjYtYmMzZi00MDIyYjQ0OTQwODUifQ.crrst8Srrp1eUs3a7ZptNCJCjs8CLq6cnEqQhW6ImBOKwweuTtXHUjB1P2cuYiVd7NzMp_Zj9eD-ZYZ5Fe7G9w\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/file",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"file"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "101"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 07:05:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"msg\": \"There is no file with the d884fca5-f6cd-43f5-a5a6-0f0c3aa16206 UUID\",\n    \"error\": true\n}"
+						}
+					]
+				}
+			]
+		}
+	]
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using proxy_net.Adapters;
+using proxy_net.Handler;
+using proxy_net.Models;
 using proxy_net.Repositories;
 using proxy_net.Repositories.File;
 using ServiceReference;
@@ -31,22 +34,22 @@ namespace proxy_net.Controllers.Auth
             try
             {
                 auth_refreshResponse response = await _authRepository.RefreshAsync(authorization);
-
                 if (response?.@return == null)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o inválida.");
                 }
                 if (response.@return.error)
                 {
-                    return StatusCode(StatusCodes.Status401Unauthorized, new { response.@return.msg, response.@return.error, response.@return.code });
-                }
-                string authToken = response?.@return.auth?.token ?? string.Empty;
-                if (string.IsNullOrEmpty(authToken))
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Token de autenticación no válido.");
-                }
+                    var adapter = new ResponseAdapter(() => new ResponseError
+                    {
+                        code = response.@return.code,
+                        msg = response.@return.msg,
+                        error = response.@return.error
+                    });
 
-                return Ok(new { Token = authToken });
+                    return this.HandleResponseError<IResponse>(adapter);
+                }
+                return Ok(new { Token = response?.@return.auth.token });
             }
             catch (Exception ex)
             {

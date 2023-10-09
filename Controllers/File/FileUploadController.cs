@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using proxy_net.Adapters;
+using proxy_net.Handler;
+using proxy_net.Models;
 using proxy_net.Repositories.File;
 using ServiceReference;
 
@@ -40,7 +43,22 @@ namespace proxy_net.Controllers.File
             try
             {
                 file_uploadResponse response = await _fileRepository.FileUploadAsync(reqFileUpload);
-                return HandleFileUploadResponse(response);
+                if (response?.@return == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound, "La respuesta del servicio SOAP es nula o inválida.");
+                }
+                if (response.@return.error)
+                {
+                    var adapter = new ResponseAdapter(() => new ResponseError
+                    {
+                        code = response.@return.code,
+                        msg = response.@return.msg,
+                        error = response.@return.error
+                    });
+
+                    return this.HandleResponseError<IResponse>(adapter);
+                }
+                return Created(string.Empty, new { response?.@return.fileUUID });
             }
             catch (Exception ex)
             {
@@ -48,28 +66,6 @@ namespace proxy_net.Controllers.File
                 throw;
             }
         }
-        private IActionResult HandleFileUploadResponse(file_uploadResponse response)
-        {
-            if (response?.@return != null)
-            {
-                if (string.Equals(response?.@return.msg, "unauthorized", StringComparison.OrdinalIgnoreCase))
-                {
-                    return StatusCode(StatusCodes.Status401Unauthorized, new { msg = "unauthorized", fileUUID = (string?)null, error = true });
-                }
-                else if (response?.@return.error == true || response?.@return.fileUUID == null)
-                {
-                    _logger.LogError("Error from the SOAP service: {0}", new { response?.@return.msg, response?.@return.fileUUID, response?.@return.error });
-                    return StatusCode(StatusCodes.Status500InternalServerError, new { response?.@return.msg, response?.@return.fileUUID, response?.@return.error });
-                }
-                return Created(string.Empty, new { response?.@return.fileUUID });
-            }
-            else
-            {
-                _logger.LogError("Invalid response from the SOAP service");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Invalid response from the SOAP service");
-            }
-        }
-
         public class Base64Converter
         {
             public static byte[] DecodeBase64(string base64)

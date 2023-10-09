@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using proxy_net.Adapters;
+using proxy_net.Handler;
+using proxy_net.Models;
 using proxy_net.Repositories.File;
 using ServiceReference;
 
@@ -35,8 +38,14 @@ namespace proxy_net.Controllers.Account
                 }
                 if (response.@return.error)
                 {
-                    string errorMessage = response.@return.msg;
-                    return StatusCode(StatusCodes.Status401Unauthorized, errorMessage);
+                    var adapter = new ResponseAdapter(() => new ResponseError
+                    {
+                        code = response.@return.code,
+                        msg = response.@return.msg,
+                        error = response.@return.error
+                    });
+
+                    return this.HandleResponseError<IResponse>(adapter);
                 }
 
                 //`fileContent` es el byte[] que contiene los datos del archivo.
