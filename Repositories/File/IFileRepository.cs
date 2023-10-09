@@ -7,5 +7,6 @@ namespace proxy_net.Repositories.File
         Task<file_uploadResponse> FileUploadAsync(reqFileUpload reqFileUpload);
         Task<file_checkResponse> FileCheckAsync(reqFile reqFileCheck);
         Task<file_downloadResponse> FileDownloadAsync(reqFile reqFileDownload);
+        Task<file_new_dirResponse> FileNewDirAsync(reqFileNewDir reqFileNewDir);
     }
 }
