@@ -45,8 +45,7 @@ namespace proxy_net.Controllers.Account
 
                     return this.HandleResponseError<IResponse>(adapter);
                 }
-                //TODO: change response!
-                return Ok(new { response });
+                return Ok(new { response.@return });
             }
             catch (Exception ex)
             {
