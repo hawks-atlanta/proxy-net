@@ -9,10 +9,10 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     environment:
-      METADATA_BASEURL: http://metadata:8080
+      METADATA_BASEURL: http://metadata:8080/api/v1
       AUTHENTICATION_BASEURL: http://authentication:8080
       WORKER_HOST: worker
-      WORKER_PORT: 8080
+      WORKER_PORT: 1099
     depends_on:
       - worker
       - metadata
@@ -23,8 +23,11 @@ services:
     image: ghcr.io/hawks-atlanta/worker-java:latest
     container_name: worker
     restart: on-failure
+    environment:
+      METADATA_BASEURL: "http://metadata:8080/api/v1"
+      AVAILABLE_VOLUMES: "1,2,3"
     ports:
-      - "127.0.0.1:8081:8080"
+      - "127.0.0.1:1099:1099"
   metadata:
     image: ghcr.io/hawks-atlanta/metadata-scala:latest
     container_name: metadata
@@ -83,9 +86,7 @@ services:
     depends_on:
       - authentication-db
       - metadata-db
-
-  # Proxy-net
-  # Local/Docker http://gateway:8080/service
+  # Local/Docker http://gateway:8080/gw/service
   # Remote       http://capyfile1.bucaramanga.upb.edu.co/service
   proxy-net:
     container_name: proxy-net
@@ -93,15 +94,13 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_URLS=http://+:80
-      - SERVICE_URL=http://gateway:8080/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
+      - ASPNETCORE_URLS=http://+:8080
+      - SERVICE_URL=http://gateway:8080/gw/service # NO ADD ?WSDL! | connect to Localhost with using name "gateway" container
     ports:
-      - 8084:80
+      - 8084:8080
     depends_on:
       - gateway
       - worker
       - metadata
       - authentication
-      - authentication-db
-      - metadata-db
       - postgres-admin

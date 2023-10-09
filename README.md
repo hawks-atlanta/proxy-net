@@ -60,6 +60,8 @@ Enter the new folder:
 cd /proxy-net
 ``````
 
+`Convert: CRLF to LF the file .docker-psql-mult-db`
+
 You can setup the necessary services by running:
 
 ``````bash
@@ -151,4 +153,6 @@ private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointCo
 ``````
 
 🚨**NOTE!: **When you want to make a new update to the interface provided in the References file you need to add this line of code, be careful not to touch other lines of code!
+
+---
 

@@ -1,9 +1,19 @@
+using proxy_net.Repositories;
+using proxy_net.Repositories.Account;
+using proxy_net.Repositories.File;
+using proxy_net.Repositories.Share;
+using proxy_net.Repositories.UnShare;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers().AddNewtonsoftJson();
-//builder.Services.AddScoped<IAuthDatasource>(); //injection
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<IShareRepository, ShareRepository>();
+builder.Services.AddScoped<IUnShareRepository, UnShareRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
