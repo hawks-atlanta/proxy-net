@@ -41,14 +41,21 @@ namespace proxy_net.Controllers.Account
                 }
                 if (response.@return.error)
                 {
-                    var adapter = new ResponseAdapter(() => new ResponseError
+                    string errorMessage = response.@return.msg;
+                    if (errorMessage.Contains("duplicate"))
                     {
-                        code = response.@return.code,
-                        msg = response.@return.msg,
-                        error = response.@return.error
-                    });
-
-                    return this.HandleResponseError<IResponse>(adapter);
+                        return Conflict(new { msg = "User already exists" });
+                    }
+                    else
+                    {
+                        var adapter = new ResponseAdapter(() => new ResponseError
+                        {
+                            code = response.@return.code,
+                            msg = response.@return.msg,
+                            error = response.@return.error
+                        });
+                        return this.HandleResponseError<IResponse>(adapter);
+                    }
                 }
                 return Created(string.Empty, new { response.@return.auth.token });
             }

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.4 (2023-10-12)
+
+
+### Features
+
+* http 409 response when a user already exists ([#31](https://github.com/hawks-atlanta/proxy-net/issues/31)) ([21677bb](https://github.com/hawks-atlanta/proxy-net/commit/21677bbc4b414b8d05e5c1d2b0356ca629b3d815))
+
+### 0.2.3 (2023-10-11)
+
 ### 0.2.2 (2023-10-09)
 
 ### 0.2.1 (2023-10-09)
