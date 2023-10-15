@@ -61,5 +61,13 @@ namespace proxy_net.Repositories
                 return await client.file_deleteAsync(reqFileDelete);
             }
         }
+
+        public async Task<file_renameResponse> FileRenameAsync(reqFileRename reqFileRename)
+        {
+            using (var client = new ServiceClient())
+            {
+                return await client.file_renameAsync(reqFileRename);
+            }
+        }
     }
 }

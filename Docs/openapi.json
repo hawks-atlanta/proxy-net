@@ -1095,7 +1095,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"fileUUID\": \"<string>\",\r\n  \"token\": \"<string>\",\r\n  \"targetDirectoryUUID\": \"<string>\",\r\n  \"newName\": \"<string>\"\r\n}",
+							"raw": "{\r\n  \"fileUUID\": \"<string>\",\r\n  \"token\": \"<string>\",\r\n  \"targetDirectoryUUID\": \"<string>\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1217,6 +1217,240 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"code\": 404,\n    \"msg\": \"La respuesta del servicio SOAP es nula o inválida.\",\n    \"error\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "/file/rename",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fileUUID\": \"c50d8ea7-2cac-4e0b-af28-41e0c4611633\",\r\n  \"newName\": \"New Name File \",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzMwNDYsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.5sAmONCpysRnXezUlIXNpymsU5hpQoLDkx2hOAH336afGv1pBZkUrG7gF4icCKkHWSyOk5nANdo_ula2Ozkzbg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/file/rename",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"file",
+								"rename"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "400 /file/new/directory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"directoryName\": \"<string>\",\r\n  \"location\": \"<string>\",\r\n  \"token\": \"<string>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/rename",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"rename"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 20:04:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"msg\": \"El cuerpo de la solicitud es nulo o incompleto\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "404 /file/rename",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"<string>\",\r\n  \"token\": \"<string>\",\r\n  \"newName\": \"<string>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/rename",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"rename"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "85"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Oct 2023 20:04:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"msg\": \"La respuesta del servicio SOAP es nula o inválida.\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "400 /file/rename must not be null",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"<string>\",\r\n  \"newName\": \"<string>\",\r\n  \"token\": \"<string>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/rename",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"rename"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 06:05:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"msg\": \"{\\\"fileUUID: must not be null\\\"}\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "200 /file/rename",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"c50d8ea7-2cac-4e0b-af28-41e0c4611633\",\r\n  \"newName\": \"New Name File \",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzMwNDYsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.5sAmONCpysRnXezUlIXNpymsU5hpQoLDkx2hOAH336afGv1pBZkUrG7gF4icCKkHWSyOk5nANdo_ula2Ozkzbg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/rename",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"rename"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 06:07:25 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"msg\": \"Rename successful\"\n}"
 						}
 					]
 				},
