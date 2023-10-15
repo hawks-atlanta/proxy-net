@@ -7,6 +7,12 @@ using ServiceReference;
 
 namespace proxy_net.Controllers.File
 {
+    public class FileListRequest
+    {
+        public string? Location { get; set; } = null;
+        public string Token { get; set; } = null!;
+    }
+
     [ApiController]
     [Route("file")]
     public class FileListControler : ControllerBase
@@ -21,10 +27,9 @@ namespace proxy_net.Controllers.File
         }
 
         [HttpPost("list", Name = "File_List")]
-        public async Task<IActionResult> Post([FromBody] reqFileList reqFileList)
+        public async Task<IActionResult> Post([FromBody] FileListRequest request)
         {
-            if (reqFileList == null || string.IsNullOrEmpty(reqFileList.location)
-                || string.IsNullOrEmpty(reqFileList.token))
+            if (request == null || string.IsNullOrEmpty(request.Token))
             {
                 return BadRequest(new ResponseError
                 {
@@ -33,6 +38,12 @@ namespace proxy_net.Controllers.File
                     error = true
                 });
             }
+
+            var reqFileList = new reqFileList
+            {
+                location = request.Location,
+                token = request.Token
+            };
 
             try
             {
