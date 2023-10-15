@@ -219,7 +219,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"username1\",\r\n    \"password\": \"Contra2\"\r\n}",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"Contra2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -304,7 +304,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"oldpassword\": \"password\",\r\n  \"newpassword\": \"password1\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTkxMjAxNzMsInV1aWQiOiJmYTQ3OWEyZi0yYmVjLTRjMzEtYTRkZS1jZGNlZmRhMTgwZTcifQ.6pqsTkqckU0AxJSZiKuPxbneP_cfs1U-UQEln0MMtIECI5Pk1_Jzy1SBVzfrEJgXWDIacUEA9cmUbYoB0xEUqg\"\r\n}",
+							"raw": "{\r\n  \"oldpassword\": \"password\",\r\n  \"newpassword\": \"Contra2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzkxNTEsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.1szMuwl8_13P9KvDF44_jubj2pvc3PN9-7d9SZYaSqULxF-CljP3vEeRDL4nCxxSPpqeLsGzn65jUJkEsBKzNg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -375,6 +375,57 @@
 							],
 							"cookie": [],
 							"body": "La respuesta del servicio SOAP es nula o inválida."
+						},
+						{
+							"name": "/account/password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"oldpassword\": \"password\",\r\n  \"newpassword\": \"Contra2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzkxNTEsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.1szMuwl8_13P9KvDF44_jubj2pvc3PN9-7d9SZYaSqULxF-CljP3vEeRDL4nCxxSPpqeLsGzn65jUJkEsBKzNg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/account/password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"account",
+										"password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "39"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 05:22:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"msg\": \"Password updated successfully\"\n}"
 						}
 					]
 				}
@@ -389,25 +440,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "fileContentBase64",
-									"value": "SG9sYQ==",
-									"type": "text"
-								},
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk0MjY4NTQsInV1aWQiOiI0YmMyMTkwZi1jMmJiLTRkZTItYmE3Ni1jYTlhY2Y1NzA4NWIifQ.US_EL4V5e-YUkwRVkAB6Q7YNjsBbjg7yMuDN9NYzYYX2uTjp7_jji-ToLSjc6uJXPdy5dyJ4N1D8D0FsxD2g8A",
-									"contentType": "application/json",
-									"type": "text"
-								},
-								{
-									"key": "fileName",
-									"value": "Hola2",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n  \"fileName\": \"FileName!\",\r\n  \"fileContentBase64\": [\r\n    \"SG9sYQ==\",\r\n    \"SE9MQQ==\" \r\n  ],\r\n  \"location\": \"MisPruebas\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzMwNDYsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.5sAmONCpysRnXezUlIXNpymsU5hpQoLDkx2hOAH336afGv1pBZkUrG7gF4icCKkHWSyOk5nANdo_ula2Ozkzbg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8084/file/upload",
@@ -765,7 +804,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"directoryName\": \"<string>\",\r\n  \"location\": \"<string>\",\r\n  \"token\": \"<string>\"\r\n}",
+							"raw": "{\r\n  \"directoryName\": \"MyNewDirectory\",\r\n  \"location\": \"MiLocation\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzIwNDMsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.6c7BvkDoYNtiCLAxSMhCN286J0wxB-J1O8FWFZZ1zzgKO8mbOAma5k8eVYR8UtS_rKFebpXB0-DHKg8KKfi60A\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -838,6 +877,214 @@
 							],
 							"cookie": [],
 							"body": "La respuesta del servicio SOAP es nula o inválida."
+						},
+						{
+							"name": "409 /file/new/directory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"directoryName\": \"<string>\",\r\n  \"location\": \"<string>\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzIwNDMsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.6c7BvkDoYNtiCLAxSMhCN286J0wxB-J1O8FWFZZ1zzgKO8mbOAma5k8eVYR8UtS_rKFebpXB0-DHKg8KKfi60A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/new/directory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"new",
+										"directory"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 05:23:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 409,\n    \"msg\": \"A file with the same name already exists in the given directory\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "400 /file/new/directory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"directoryName\": \"MyNewDirectory\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzIwNDMsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.6c7BvkDoYNtiCLAxSMhCN286J0wxB-J1O8FWFZZ1zzgKO8mbOAma5k8eVYR8UtS_rKFebpXB0-DHKg8KKfi60A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/new/directory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"new",
+										"directory"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 05:26:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"msg\": \"El cuerpo de la solicitud es nulo o incompleto\",\n    \"error\": true\n}"
+						},
+						{
+							"name": "200 /file/new/directory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"directoryName\": \"MyNewDirectory\",\r\n  \"location\": \"MiLocation\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzIwNDMsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.6c7BvkDoYNtiCLAxSMhCN286J0wxB-J1O8FWFZZ1zzgKO8mbOAma5k8eVYR8UtS_rKFebpXB0-DHKg8KKfi60A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/new/directory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"new",
+										"directory"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 05:26:52 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileUUID\": \"42b4f493-25cd-4eea-99f1-630d24f4a787\",\n    \"msg\": \"Directory created\"\n}"
+						},
+						{
+							"name": "200 LocationNull /file/new/directory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"directoryName\": \"MyNewDirectory2\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTk5MzIwNDMsInV1aWQiOiJjZTJiMGQ3Yy0yODI2LTRhZjYtODc1Mi1lOGM5MDJkMmI4NDAifQ.6c7BvkDoYNtiCLAxSMhCN286J0wxB-J1O8FWFZZ1zzgKO8mbOAma5k8eVYR8UtS_rKFebpXB0-DHKg8KKfi60A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/file/new/directory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"file",
+										"new",
+										"directory"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Oct 2023 05:32:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileUUID\": \"e78fbbcd-112e-4ade-ab0e-13d6e9792c83\",\n    \"msg\": \"Directory created\"\n}"
 						}
 					]
 				},
