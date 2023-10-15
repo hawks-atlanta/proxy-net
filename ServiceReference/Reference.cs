@@ -60,6 +60,10 @@ namespace ServiceReference
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<ServiceReference.file_moveResponse> file_moveAsync(ServiceReference.file_moveRequest request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/file_renameRequest", ReplyAction="http://soap.gateway/Service/file_renameResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ServiceReference.file_renameResponse> file_renameAsync(ServiceReference.file_renameRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/share_fileRequest", ReplyAction="http://soap.gateway/Service/share_fileResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<ServiceReference.share_fileResponse> share_fileAsync(ServiceReference.share_fileRequest request);
@@ -164,6 +168,7 @@ namespace ServiceReference
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileNewDir))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileUpload))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFile))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileRename))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileDelete))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileList))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -240,8 +245,6 @@ namespace ServiceReference
         
         private string targetDirectoryUUIDField;
         
-        private string newNameField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string fileUUID
@@ -267,20 +270,6 @@ namespace ServiceReference
             set
             {
                 this.targetDirectoryUUIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string newName
-        {
-            get
-            {
-                return this.newNameField;
-            }
-            set
-            {
-                this.newNameField = value;
             }
         }
     }
@@ -441,6 +430,46 @@ namespace ServiceReference
             set
             {
                 this.fileUUIDField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
+    public partial class reqFileRename : authorization
+    {
+        
+        private string fileUUIDField;
+        
+        private string newNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string fileUUID
+        {
+            get
+            {
+                return this.fileUUIDField;
+            }
+            set
+            {
+                this.fileUUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string newName
+        {
+            get
+            {
+                return this.newNameField;
+            }
+            set
+            {
+                this.newNameField = value;
             }
         }
     }
@@ -1318,6 +1347,48 @@ namespace ServiceReference
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_rename", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_renameRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.reqFileRename arg0;
+        
+        public file_renameRequest()
+        {
+        }
+        
+        public file_renameRequest(ServiceReference.reqFileRename arg0)
+        {
+            this.arg0 = arg0;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_renameResponse", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_renameResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.resStatus @return;
+        
+        public file_renameResponse()
+        {
+        }
+        
+        public file_renameResponse(ServiceReference.resStatus @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="share_file", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
     public partial class share_fileRequest
     {
@@ -1674,6 +1745,19 @@ namespace ServiceReference
             ServiceReference.file_moveRequest inValue = new ServiceReference.file_moveRequest();
             inValue.arg0 = arg0;
             return ((ServiceReference.Service)(this)).file_moveAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ServiceReference.file_renameResponse> ServiceReference.Service.file_renameAsync(ServiceReference.file_renameRequest request)
+        {
+            return base.Channel.file_renameAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceReference.file_renameResponse> file_renameAsync(ServiceReference.reqFileRename arg0)
+        {
+            ServiceReference.file_renameRequest inValue = new ServiceReference.file_renameRequest();
+            inValue.arg0 = arg0;
+            return ((ServiceReference.Service)(this)).file_renameAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
