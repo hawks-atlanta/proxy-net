@@ -12,5 +12,6 @@ namespace proxy_net.Repositories.File
         Task<file_listResponse> FileListAsync(reqFileList reqFileList);
         Task<file_deleteResponse> FileDeleteAsync(reqFileDelete reqFileDelete);
         Task<file_renameResponse> FileRenameAsync(reqFileRename reqFileRename);
+        Task<file_getResponse> FileGetAsync(reqFile reqFile);
     }
 }
