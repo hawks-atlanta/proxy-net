@@ -7,6 +7,14 @@ using ServiceReference;
 
 namespace proxy_net.Controllers.File
 {
+    public class ReqFileNewDir
+    {
+        public string DirectoryName { get; set; } = null!;
+        public string? Location { get; set; } = null;
+        public string? Token { get; set; } = null!;
+    }
+
+
     [ApiController]
     [Route("file")]
     public class FileNewDirectoryController : ControllerBase
@@ -21,10 +29,9 @@ namespace proxy_net.Controllers.File
         }
 
         [HttpPost("new/directory", Name = "File_New_Directory")]
-        public async Task<IActionResult> Post([FromBody] reqFileNewDir reqFileNewDir)
+        public async Task<IActionResult> Post([FromBody] ReqFileNewDir request)
         {
-            if (reqFileNewDir == null || string.IsNullOrEmpty(reqFileNewDir.directoryName) ||
-                string.IsNullOrEmpty(reqFileNewDir.location) || string.IsNullOrEmpty(reqFileNewDir.token))
+            if (request == null || string.IsNullOrEmpty(request.DirectoryName) || string.IsNullOrEmpty(request.Token))
             {
                 return BadRequest(new ResponseError
                 {
@@ -33,6 +40,14 @@ namespace proxy_net.Controllers.File
                     error = true
                 });
             }
+
+            //Adapter
+            var reqFileNewDir = new reqFileNewDir
+            {
+                directoryName = request.DirectoryName,
+                location = request.Location,
+                token = request.Token
+            };
 
             try
             {

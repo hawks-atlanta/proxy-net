@@ -40,11 +40,11 @@ In Docker-Compose:
 
 ``````yaml
   # Proxy-net
-  # Local/Docker http://gateway:8080/service (Gateway Container)
+  # Local/Docker http://gateway:8080/gw/service (Gateway Container)
   # Remote       http://URL-YOUR-SOAP-PR/service
 ....
     environment:
-      - SERVICE_URL=http://gateway:8080/service 
+      - SERVICE_URL=http://localhost:8080/gw/service
 ``````
 
 `Note: It is not necessary to add ?WSDL | connect to Localhost with using name "gateway" container`
@@ -93,6 +93,38 @@ dotnet run
 ```
 
 ## ⚠️WARNING! for updates in [Gateway-SOAP](https://github.com/hawks-atlanta/gateway-java):
+
+Change `${SERVICE_URL}` to  http://localhost:8080/gw/service?wsdl  `dotnet-svcutil.params.json`:
+
+``````json
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.1.0",
+  "options": {
+    "inputs": [
+      "http://localhost:8080/gw/service?wsdl"
+    ],
+ //More lines...
+``````
+
+For update Reference.cs:
+
+``````bash
+dotnet svcutil -u ServiceReference http://localhost:8080/gw/service?wsdl
+``````
+
+Revert change "`CTRL + Z`" the file [dotnet-svcutil.params.json](https://github.com/hawks-atlanta/proxy-net/blob/main/ServiceReference/dotnet-svcutil.params.json) change to:
+
+``````json
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.1.0",
+  "options": {
+    "inputs": [
+      "${SERVICE_URL}"
+    ],
+  //More lines...
+``````
 
 To add the service either localhost or remote from the SOAP GATEWAY, the ENV `SERVICE_URL` reading is created, in the file [References.cs](https://github.com/hawks-atlanta/proxy-net/blob/main/ServiceReference/Reference.cs) implement this code:
 

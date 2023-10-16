@@ -25,12 +25,11 @@ namespace proxy_net.Controllers.File
         {
             if (reqFileMove == null || string.IsNullOrEmpty(reqFileMove.fileUUID)
                 || string.IsNullOrEmpty(reqFileMove.token)
-                || string.IsNullOrEmpty(reqFileMove.targetDirectoryUUID)
-                || string.IsNullOrEmpty(reqFileMove.newName))
+                || string.IsNullOrEmpty(reqFileMove.targetDirectoryUUID))
             {
                 return BadRequest(new ResponseError
                 {
-                    code = 400,
+                    code = 400, 
                     msg = "El cuerpo de la solicitud es nulo o incompleto",
                     error = true
                 });

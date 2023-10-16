@@ -7,29 +7,23 @@ using ServiceReference;
 
 namespace proxy_net.Controllers.File
 {
-    public class FileListRequest
-    {
-        public string? Location { get; set; } = null;
-        public string Token { get; set; } = null!;
-    }
-
     [ApiController]
     [Route("file")]
-    public class FileListControler : ControllerBase
+    public class FileGetControler : ControllerBase
     {
-        private readonly ILogger<FileListControler> _logger;
+        private readonly ILogger<FileGetControler> _logger;
         private readonly IFileRepository _fileRepository;
 
-        public FileListControler(ILogger<FileListControler> logger, IFileRepository fileRepository)
+        public FileGetControler(ILogger<FileGetControler> logger, IFileRepository fileRepository)
         {
             _logger = logger;
             _fileRepository = fileRepository;
         }
 
-        [HttpPost("list", Name = "File_List")]
-        public async Task<IActionResult> Post([FromBody] FileListRequest request)
+        [HttpPost("get", Name = "File_Get")]
+        public async Task<IActionResult> Post([FromBody] reqFile request)
         {
-            if (request == null || string.IsNullOrEmpty(request.Token))
+            if (request == null || string.IsNullOrEmpty(request.token) || string.IsNullOrEmpty(request.fileUUID))
             {
                 return BadRequest(new ResponseError
                 {
@@ -39,15 +33,15 @@ namespace proxy_net.Controllers.File
                 });
             }
 
-            var reqFileList = new reqFileList
+            var reqFile = new reqFile
             {
-                location = request.Location,
-                token = request.Token
+                fileUUID = request.fileUUID,
+                token = request.token
             };
 
             try
             {
-                file_listResponse response = await _fileRepository.FileListAsync(reqFileList);
+                file_getResponse response = await _fileRepository.FileGetAsync(reqFile);
                 if (response?.@return == null)
                 {
                     return NotFound(new ResponseError
@@ -69,7 +63,7 @@ namespace proxy_net.Controllers.File
 
                     return this.HandleResponseError<IResponse>(adapter);
                 }
-                return Ok(new { response.@return.files, response.@return.msg });
+                return Ok(new { response.@return.file, response.@return.msg });
             }
             catch (Exception ex)
             {

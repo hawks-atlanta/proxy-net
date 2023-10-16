@@ -50,7 +50,7 @@ namespace proxy_net.Controllers.Account
 
                     return this.HandleResponseError<IResponse>(adapter);
                 }
-                return Ok(new { response.@return });
+                return Ok(new { response.@return.msg });
             }
             catch (Exception ex)
             {
