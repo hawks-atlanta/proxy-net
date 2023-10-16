@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.6 (2023-10-16)
+
+
+### Features
+
+* list file content base64 request ([#33](https://github.com/hawks-atlanta/proxy-net/issues/33)) ([7b07e85](https://github.com/hawks-atlanta/proxy-net/commit/7b07e85394a0ab2def2f10faebbce6ebc1a5a837))
+
 ### 0.2.5 (2023-10-15)
 
 
