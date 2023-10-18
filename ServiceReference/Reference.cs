@@ -40,6 +40,10 @@ namespace ServiceReference
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<ServiceReference.file_new_dirResponse> file_new_dirAsync(ServiceReference.file_new_dirRequest request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/file_getRequest", ReplyAction="http://soap.gateway/Service/file_getResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ServiceReference.file_getResponse> file_getAsync(ServiceReference.file_getRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/file_checkRequest", ReplyAction="http://soap.gateway/Service/file_checkResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<ServiceReference.file_checkResponse> file_checkAsync(ServiceReference.file_checkRequest request);
@@ -59,6 +63,10 @@ namespace ServiceReference
         [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/file_moveRequest", ReplyAction="http://soap.gateway/Service/file_moveResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<ServiceReference.file_moveResponse> file_moveAsync(ServiceReference.file_moveRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/file_renameRequest", ReplyAction="http://soap.gateway/Service/file_renameResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ServiceReference.file_renameResponse> file_renameAsync(ServiceReference.file_renameRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://soap.gateway/Service/share_fileRequest", ReplyAction="http://soap.gateway/Service/share_fileResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -164,6 +172,7 @@ namespace ServiceReference
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileNewDir))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileUpload))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFile))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileRename))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileDelete))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileList))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -240,8 +249,6 @@ namespace ServiceReference
         
         private string targetDirectoryUUIDField;
         
-        private string newNameField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string fileUUID
@@ -267,20 +274,6 @@ namespace ServiceReference
             set
             {
                 this.targetDirectoryUUIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string newName
-        {
-            get
-            {
-                return this.newNameField;
-            }
-            set
-            {
-                this.newNameField = value;
             }
         }
     }
@@ -449,6 +442,46 @@ namespace ServiceReference
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
+    public partial class reqFileRename : authorization
+    {
+        
+        private string fileUUIDField;
+        
+        private string newNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string fileUUID
+        {
+            get
+            {
+                return this.fileUUIDField;
+            }
+            set
+            {
+                this.fileUUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string newName
+        {
+            get
+            {
+                return this.newNameField;
+            }
+            set
+            {
+                this.newNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
     public partial class reqFileDelete : authorization
     {
         
@@ -501,44 +534,18 @@ namespace ServiceReference
     public partial class file
     {
         
+        private string uuidField;
+        
         private string nameField;
         
-        private bool isFileField;
+        private string extensionField;
         
-        private string uuidField;
+        private bool isFileField;
         
         private int sizeField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public bool isFile
-        {
-            get
-            {
-                return this.isFileField;
-            }
-            set
-            {
-                this.isFileField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string uuid
         {
             get
@@ -552,7 +559,49 @@ namespace ServiceReference
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string extension
+        {
+            get
+            {
+                return this.extensionField;
+            }
+            set
+            {
+                this.extensionField = value;
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public bool isFile
+        {
+            get
+            {
+                return this.isFileField;
+            }
+            set
+            {
+                this.isFileField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public int size
         {
             get
@@ -592,6 +641,7 @@ namespace ServiceReference
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(resShareListWithWho))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(resFileGet))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(resShareList))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(resFileCheck))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(resFileNew))]
@@ -673,6 +723,30 @@ namespace ServiceReference
             set
             {
                 this.usernamesField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
+    public partial class resFileGet : resStatus
+    {
+        
+        private file fileField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public file file
+        {
+            get
+            {
+                return this.fileField;
+            }
+            set
+            {
+                this.fileField = value;
             }
         }
     }
@@ -1108,6 +1182,48 @@ namespace ServiceReference
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_get", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_getRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.reqFile arg0;
+        
+        public file_getRequest()
+        {
+        }
+        
+        public file_getRequest(ServiceReference.reqFile arg0)
+        {
+            this.arg0 = arg0;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_getResponse", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_getResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.resFileGet @return;
+        
+        public file_getResponse()
+        {
+        }
+        
+        public file_getResponse(ServiceReference.resFileGet @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="file_check", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
     public partial class file_checkRequest
     {
@@ -1310,6 +1426,48 @@ namespace ServiceReference
         }
         
         public file_moveResponse(ServiceReference.resStatus @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_rename", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_renameRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.reqFileRename arg0;
+        
+        public file_renameRequest()
+        {
+        }
+        
+        public file_renameRequest(ServiceReference.reqFileRename arg0)
+        {
+            this.arg0 = arg0;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="file_renameResponse", WrapperNamespace="http://soap.gateway/", IsWrapped=true)]
+    public partial class file_renameResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.gateway/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ServiceReference.resStatus @return;
+        
+        public file_renameResponse()
+        {
+        }
+        
+        public file_renameResponse(ServiceReference.resStatus @return)
         {
             this.@return = @return;
         }
@@ -1612,6 +1770,19 @@ namespace ServiceReference
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ServiceReference.file_getResponse> ServiceReference.Service.file_getAsync(ServiceReference.file_getRequest request)
+        {
+            return base.Channel.file_getAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceReference.file_getResponse> file_getAsync(ServiceReference.reqFile arg0)
+        {
+            ServiceReference.file_getRequest inValue = new ServiceReference.file_getRequest();
+            inValue.arg0 = arg0;
+            return ((ServiceReference.Service)(this)).file_getAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<ServiceReference.file_checkResponse> ServiceReference.Service.file_checkAsync(ServiceReference.file_checkRequest request)
         {
             return base.Channel.file_checkAsync(request);
@@ -1674,6 +1845,19 @@ namespace ServiceReference
             ServiceReference.file_moveRequest inValue = new ServiceReference.file_moveRequest();
             inValue.arg0 = arg0;
             return ((ServiceReference.Service)(this)).file_moveAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ServiceReference.file_renameResponse> ServiceReference.Service.file_renameAsync(ServiceReference.file_renameRequest request)
+        {
+            return base.Channel.file_renameAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ServiceReference.file_renameResponse> file_renameAsync(ServiceReference.reqFileRename arg0)
+        {
+            ServiceReference.file_renameRequest inValue = new ServiceReference.file_renameRequest();
+            inValue.arg0 = arg0;
+            return ((ServiceReference.Service)(this)).file_renameAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1746,7 +1930,7 @@ namespace ServiceReference
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }
-        
+
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.ServiceImpPort))
@@ -1760,7 +1944,7 @@ namespace ServiceReference
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }
-        
+
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
             return ServiceClient.GetBindingForEndpoint(EndpointConfiguration.ServiceImpPort);

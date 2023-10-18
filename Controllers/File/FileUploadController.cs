@@ -7,6 +7,14 @@ using ServiceReference;
 
 namespace proxy_net.Controllers.File
 {
+    public class FileUploadRequest
+    {
+        public string FileName { get; set; } = null!;
+        public List<string> FileContent { get; set; } = null!;
+        public string? Location { get; set; } = null;
+        public string Token { get; set; } = null!;
+    }
+
     [ApiController]
     [Route("file")]
     public class FileUploadController : ControllerBase
@@ -21,10 +29,12 @@ namespace proxy_net.Controllers.File
         }
 
         [HttpPost("upload", Name = "File_Upload")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(file_uploadResponse))]
-        public async Task<IActionResult> Post([FromForm] string fileContentBase64, [FromForm] string fileName, [FromForm] string token)
+        public async Task<IActionResult> Post([FromBody] FileUploadRequest request)
         {
-            if (string.IsNullOrEmpty(fileContentBase64) || string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(request.FileName) ||
+                string.IsNullOrEmpty(request.Token) ||
+                request.FileContent == null ||
+                !request.FileContent.Any())
             {
                 return BadRequest(new ResponseError
                 {
@@ -34,15 +44,32 @@ namespace proxy_net.Controllers.File
                 });
             }
 
-            byte[] fileContent = Base64Converter.DecodeBase64(fileContentBase64);
+            List<byte> allFileContent = new List<byte>();
 
-            //DTO para el request (encapsular y transportar datos)
+            try
+            {
+                foreach (var contentBase64 in request.FileContent)
+                {
+                    var fileContent = Convert.FromBase64String(contentBase64);
+                    allFileContent.AddRange(fileContent);
+                }
+            }
+            catch (FormatException)
+            {
+                return BadRequest(new ResponseError
+                {
+                    code = 400,
+                    msg = "Invalid Base64 Format",
+                    error = true
+                });
+            }
+
             var reqFileUpload = new reqFileUpload
             {
-                fileName = fileName,
-                fileContent = fileContent,
-                location = null,
-                token = token
+                fileName = request.FileName,
+                fileContent = allFileContent.ToArray(),
+                location = request.Location,
+                token = request.Token
             };
 
             try
@@ -71,20 +98,19 @@ namespace proxy_net.Controllers.File
                 throw;
             }
         }
-        public class Base64Converter
+    }
+    public class Base64Converter
+    {
+        public static byte[] DecodeBase64(string base64)
         {
-            public static byte[] DecodeBase64(string base64)
+            try
             {
-                try
-                {
-                    return Convert.FromBase64String(base64);
-                }
-                catch (FormatException ex)
-                {
-                    throw new ArgumentException("Invalid Base64 format", ex);
-                }
+                return Convert.FromBase64String(base64);
+            }
+            catch (FormatException ex)
+            {
+                throw new ArgumentException("Invalid Base64 format", ex);
             }
         }
     }
-
 }

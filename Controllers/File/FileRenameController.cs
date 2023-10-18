@@ -7,47 +7,37 @@ using ServiceReference;
 
 namespace proxy_net.Controllers.File
 {
-    public class FileListRequest
-    {
-        public string? Location { get; set; } = null;
-        public string Token { get; set; } = null!;
-    }
-
     [ApiController]
     [Route("file")]
-    public class FileListControler : ControllerBase
+    public class FileRenameController : ControllerBase
     {
-        private readonly ILogger<FileListControler> _logger;
+        private readonly ILogger<FileRenameController> _logger;
         private readonly IFileRepository _fileRepository;
 
-        public FileListControler(ILogger<FileListControler> logger, IFileRepository fileRepository)
+        public FileRenameController(ILogger<FileRenameController> logger, IFileRepository fileRepository)
         {
             _logger = logger;
             _fileRepository = fileRepository;
         }
 
-        [HttpPost("list", Name = "File_List")]
-        public async Task<IActionResult> Post([FromBody] FileListRequest request)
+        [HttpPost("rename", Name = "File_Rename")]
+        public async Task<IActionResult> Post([FromBody] reqFileRename reqFileRename)
         {
-            if (request == null || string.IsNullOrEmpty(request.Token))
+            if (reqFileRename == null || string.IsNullOrEmpty(reqFileRename.fileUUID)
+                || string.IsNullOrEmpty(reqFileRename.newName)
+                || string.IsNullOrEmpty(reqFileRename.token))
             {
                 return BadRequest(new ResponseError
                 {
-                    code = 400,
+                    code = 400, 
                     msg = "El cuerpo de la solicitud es nulo o incompleto",
                     error = true
                 });
             }
 
-            var reqFileList = new reqFileList
-            {
-                location = request.Location,
-                token = request.Token
-            };
-
             try
             {
-                file_listResponse response = await _fileRepository.FileListAsync(reqFileList);
+                file_renameResponse response = await _fileRepository.FileRenameAsync(reqFileRename);
                 if (response?.@return == null)
                 {
                     return NotFound(new ResponseError
@@ -69,7 +59,7 @@ namespace proxy_net.Controllers.File
 
                     return this.HandleResponseError<IResponse>(adapter);
                 }
-                return Ok(new { response.@return.files, response.@return.msg });
+                return Ok(new { response.@return.msg });
             }
             catch (Exception ex)
             {
