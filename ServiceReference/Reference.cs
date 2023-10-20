@@ -1930,21 +1930,16 @@ namespace ServiceReference
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }
-
+        
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.ServiceImpPort))
             {
-                string serviceUrl = Environment.GetEnvironmentVariable("SERVICE_URL");
-                if (string.IsNullOrEmpty(serviceUrl))
-                {
-                    throw new ApplicationException("SERVICE_URL env not found!");
-                }
-                return new System.ServiceModel.EndpointAddress(serviceUrl);
+                return new System.ServiceModel.EndpointAddress("http://localhost:8080/gw/service");
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }
-
+        
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
             return ServiceClient.GetBindingForEndpoint(EndpointConfiguration.ServiceImpPort);
