@@ -527,7 +527,6 @@ namespace ServiceReference
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(sharedFile))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
@@ -611,30 +610,6 @@ namespace ServiceReference
             set
             {
                 this.sizeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
-    public partial class sharedFile : file
-    {
-        
-        private string ownerUsernameField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string ownerUsername
-        {
-            get
-            {
-                return this.ownerUsernameField;
-            }
-            set
-            {
-                this.ownerUsernameField = value;
             }
         }
     }
@@ -758,11 +733,11 @@ namespace ServiceReference
     public partial class resShareList : resStatus
     {
         
-        private sharedFile[] sharedFilesField;
+        private file[] sharedFilesField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("sharedFiles", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
-        public sharedFile[] sharedFiles
+        public file[] sharedFiles
         {
             get
             {
