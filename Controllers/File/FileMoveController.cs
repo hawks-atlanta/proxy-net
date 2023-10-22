@@ -24,8 +24,7 @@ namespace proxy_net.Controllers.File
         public async Task<IActionResult> Pust([FromBody] reqFileMove reqFileMove)
         {
             if (reqFileMove == null || string.IsNullOrEmpty(reqFileMove.fileUUID)
-                || string.IsNullOrEmpty(reqFileMove.token)
-                || string.IsNullOrEmpty(reqFileMove.targetDirectoryUUID))
+                || string.IsNullOrEmpty(reqFileMove.token))
             {
                 return BadRequest(new ResponseError
                 {
