@@ -804,7 +804,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"directoryName\": \"MyNewDirectory2\",\r\n  \"location\": \"MyNewDirectory\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAwMDcyMTcsInV1aWQiOiI3YzE0ZmRlZC1hY2YxLTQzNjQtOWYwZi02MDY1MzNjMDA0MDMifQ.gUzM2goE7rBMEurL900gsiWRMB7WNdC5Q2um7udev3C_ZjXuB0V1gwcRLUj3AHr1CPf5KdZfSS1L7gZ94qOTlA\"\r\n}",
+							"raw": "{\r\n  \"directoryName\": \"Halloween\",\r\n  //\"location\": \"bc4351fe-a731-4c21-8120-6c4f8841a461\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAzNjQ5MzUsInV1aWQiOiJhM2Y0OWU2MC01NGUwLTQxNWEtOTc4Zi0wNmY5ZGM0OTI0YmQifQ.9rnDCpIyBq-PhVD2rBfP_BUjip3WO3UBhM2mZs5XJq7g-fjmDtJQw_Cc2UVkCGCi3tIwhbWDbm7GM_HNf6EWLw\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1645,7 +1645,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"b1f24376-b49b-4602-b2a8-86746086a456\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAwMDcyMTcsInV1aWQiOiI3YzE0ZmRlZC1hY2YxLTQzNjQtOWYwZi02MDY1MzNjMDA0MDMifQ.gUzM2goE7rBMEurL900gsiWRMB7WNdC5Q2um7udev3C_ZjXuB0V1gwcRLUj3AHr1CPf5KdZfSS1L7gZ94qOTlA\"\r\n}",
+							"raw": "{\r\n    \"location\": \"null\",\r\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAwMDcyMTcsInV1aWQiOiI3YzE0ZmRlZC1hY2YxLTQzNjQtOWYwZi02MDY1MzNjMDA0MDMifQ.gUzM2goE7rBMEurL900gsiWRMB7WNdC5Q2um7udev3C_ZjXuB0V1gwcRLUj3AHr1CPf5KdZfSS1L7gZ94qOTlA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2349,6 +2349,112 @@
 							],
 							"cookie": [],
 							"body": "Excepción no controlada"
+						},
+						{
+							"name": "200 OK NULL",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"8e91fea4-2855-48eb-a8dd-f734b8e50e4b\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAzNjY1NTIsInV1aWQiOiI5OTc0Y2M2Yy03OGQwLTRjOTAtOTBmOC00OTFkMjZkYjNlYTIifQ.Fug1w1lV52NyNMG97qF4bB2a2BR5uwJQCF9rLk7wHlahTAtZ9tqoqgyTl5Ng_YRfXR5P_bZs5YAFpUPXr8hrfw\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/list/with/who",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"list",
+										"with",
+										"who"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Oct 2023 04:04:52 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"usernames\": null,\n    \"msg\": \"List of shared with users successfully\"\n}"
+						},
+						{
+							"name": "/share/list/with/who",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fileUUID\": \"8e91fea4-2855-48eb-a8dd-f734b8e50e4b\",\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAzNjY1NTIsInV1aWQiOiI5OTc0Y2M2Yy03OGQwLTRjOTAtOTBmOC00OTFkMjZkYjNlYTIifQ.Fug1w1lV52NyNMG97qF4bB2a2BR5uwJQCF9rLk7wHlahTAtZ9tqoqgyTl5Ng_YRfXR5P_bZs5YAFpUPXr8hrfw\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8084/share/list/with/who",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"share",
+										"list",
+										"with",
+										"who"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Oct 2023 04:05:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"usernames\": [\n        \"usernamee\"\n    ],\n    \"msg\": \"List of shared with users successfully\"\n}"
 						}
 					]
 				}
