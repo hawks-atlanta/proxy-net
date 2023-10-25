@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.2.10 (2023-10-25)
+
+
+### Bug Fixes
+
+* update references for share remove ([#38](https://github.com/hawks-atlanta/proxy-net/issues/38)) ([1d219fa](https://github.com/hawks-atlanta/proxy-net/commit/1d219fae5c5e5fd34cf0f12f7b05048288f8136d))
+
+### 0.2.9 (2023-10-25)
+
 ### 0.2.8 (2023-10-22)
 
 ### 0.2.7 (2023-10-20)
