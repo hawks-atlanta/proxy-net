@@ -126,49 +126,10 @@ namespace ServiceReference
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
-    public partial class reqShareRemove
-    {
-        
-        private string fileUUIDField;
-        
-        private string otherUsernameField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string fileUUID
-        {
-            get
-            {
-                return this.fileUUIDField;
-            }
-            set
-            {
-                this.fileUUIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public string otherUsername
-        {
-            get
-            {
-                return this.otherUsernameField;
-            }
-            set
-            {
-                this.otherUsernameField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqShareFile))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileMove))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqAccPassword))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqShareRemove))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileNewDir))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFileUpload))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(reqFile))]
@@ -314,6 +275,46 @@ namespace ServiceReference
             set
             {
                 this.newpasswordField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.gateway/")]
+    public partial class reqShareRemove : authorization
+    {
+        
+        private string fileUUIDField;
+        
+        private string otherUsernameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string fileUUID
+        {
+            get
+            {
+                return this.fileUUIDField;
+            }
+            set
+            {
+                this.fileUUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string otherUsername
+        {
+            get
+            {
+                return this.otherUsernameField;
+            }
+            set
+            {
+                this.otherUsernameField = value;
             }
         }
     }
@@ -485,11 +486,11 @@ namespace ServiceReference
     public partial class reqFileDelete : authorization
     {
         
-        private string[] fileUUIDField;
+        private string fileUUIDField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("fileUUID", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
-        public string[] fileUUID
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string fileUUID
         {
             get
             {
